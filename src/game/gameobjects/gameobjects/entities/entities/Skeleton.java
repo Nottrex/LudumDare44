@@ -15,11 +15,14 @@ public class Skeleton extends BasicWalkingEntity {
 	private static Sprite idle_r = new Sprite(250, "skeleton_walking_r_0");
 	private static Sprite walking_l = new Sprite(250, "skeleton_walking_l_0", "skeleton_walking_l_1", "skeleton_walking_l_2", "skeleton_walking_l_3");
 	private static Sprite idle_l = new Sprite(250, "skeleton_walking_l_0");
+	private int lastAttack;
 
 	private Tree onDead;
 
 	public Skeleton(float x, float y, float drawingPriority, Tree onDead) {
 		super(new HitBox(x, y, 0.5f, 0.875f), drawingPriority);
+
+		lastAttack = 0;
 
 		setSprite(idle_r);
 
@@ -41,6 +44,18 @@ public class Skeleton extends BasicWalkingEntity {
 
 		Optional<Player> nearestPlayer = game.getPlayers().stream().sorted((p1, p2) -> Float.compare(hitBox.distance(p1.getHitBox()), hitBox.distance(p2.getHitBox()))).findFirst();
 
+		lastAttack--;
+		if (nearestPlayer.isPresent()) {
+			if (Math.random() < 0.01 && lastAttack < 120) {
+				float vx = nearestPlayer.get().getHitBox().getCenterX() - hitBox.getCenterX();
+				float vy = nearestPlayer.get().getHitBox().getCenterY() - hitBox.getCenterY();
+				double length = Math.sqrt(vx*vx+vy*vy);
+				vx /= length*7;
+				vy /= length*7;
+				game.addGameObject(new Arrow(hitBox.getCenterX(), hitBox.getCenterY(), getDrawingPriority(), new Sprite(20, "bone_0", "bone_1", "bone_2", "bone_3", "bone_4", "bone_5", "bone_6", "bone_7"), vx, vy, this));
+				lastAttack = 0;
+			}
+		}
 
 		setMx((game.getGameTick() % 121) - 60);
 		setMy(((game.getGameTick()+30) % 121) - 60);
