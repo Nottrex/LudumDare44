@@ -1,4 +1,4 @@
-89
+113
 chest_closed 25 0 7 7
 chest_open 33 0 7 7
 wall 24 24 8 8
@@ -69,6 +69,30 @@ player_attack_r_3 69 119 22 10
 player_attack_r_4 71 128 18 8
 player_attack_r_5 72 136 16 8
 player_attack_r_6 72 144 16 8
+player_attack_dl_1 160 79 16 10
+player_attack_dl_2 156 92 24 16
+player_attack_dl_3 157 118 22 28
+player_attack_dl_4 157 151 22 26
+player_attack_dl_5 158 177 20 22
+player_attack_dl_6 160 207 16 10
+player_attack_dl_7 160 223 16 10
+player_attack_dr_1 128 79 16 10
+player_attack_dr_2 124 92 24 16
+player_attack_dr_3 125 118 22 28
+player_attack_dr_4 125 151 22 26
+player_attack_dr_5 126 177 20 22
+player_attack_dr_6 128 207 16 10
+player_attack_dr_7 128 223 16 10
+player_attack_ul_1 192 80 16 8
+player_attack_ul_2 192 91 16 18
+player_attack_ul_3 192 115 16 18
+player_attack_ul_4 192 135 16 10
+player_attack_ul_5 192 152 16 8
+player_attack_ur_1 208 80 16 8
+player_attack_ur_2 208 91 16 18
+player_attack_ur_3 208 115 16 18
+player_attack_ur_4 208 135 16 10
+player_attack_ur_5 208 152 16 8
 zombie_walking_r_0 88 8 8 8
 zombie_walking_r_1 96 8 8 8
 zombie_walking_r_2 104 8 8 8

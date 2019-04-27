@@ -30,12 +30,18 @@ public class Player extends BasicWalkingEntity implements Light {
 	private static Sprite attack_l = new Sprite(90, "player_attack_l_0", "player_attack_l_1", "player_attack_l_2", "player_attack_l_3", "player_attack_l_4", "player_attack_l_5", "player_attack_l_6");
 	private static Sprite walking_l = new Sprite(100, "player_idle_l", "player_walking_l_1", "player_idle_l", "player_walking_l_2");
 	private static Sprite idle_l = new Sprite(250, "player_idle_l");
-	
+
+	private static Sprite attack_lu = new Sprite(90, "player_attack_l_0", "player_attack_ul_1", "player_attack_ul_2", "player_attack_ul_3", "player_attack_ul_4", "player_attack_ul_5", "player_attack_l_6");
+	private static Sprite attack_ld = new Sprite(90, "player_attack_l_0", "player_attack_dl_1", "player_attack_dl_2", "player_attack_dl_3", "player_attack_dl_4", "player_attack_dl_5", "player_attack_dl_6", "player_attack_dl_7", "player_attack_l_6");
+
+	private static Sprite attack_ru = new Sprite(90, "player_attack_r_0", "player_attack_ur_1", "player_attack_ur_2", "player_attack_ur_3", "player_attack_ur_4", "player_attack_ur_5", "player_attack_r_6");
+	private static Sprite attack_rd = new Sprite(90, "player_attack_r_0", "player_attack_dr_1", "player_attack_dr_2", "player_attack_dr_3", "player_attack_dr_4", "player_attack_dr_5", "player_attack_dr_6", "player_attack_dr_7", "player_attack_r_6");
+
 	private Set<Ability> abilities;								//The abilities of the player
 	private boolean attackingLastTick, interactingLastTick;
 	private boolean attacking, interacting;
 	private int attack, interact;
-	private boolean attackLeft;
+	private boolean attackLeft, attackDown, attackUp;
 
 	public Player(float x, float y, float drawingPriority) {
 		super(new HitBox(x, y, 0.75f, 0.875f), drawingPriority);
@@ -91,13 +97,13 @@ public class Player extends BasicWalkingEntity implements Light {
 
 	@Override
 	public void update(Game game) {
-		super.update(game);
+		super.update(game);	//TODO: Cancel movement when attacking
 
 		if (game.getMap().getDirectory() == null)
 			this.addAbility(Ability.DOUBLE_JUMP);
 
 		Sprite newSprite = null;
-		if (attack > 0) newSprite = (attackLeft ? attack_l : attack_r);
+		if (attack > 0) newSprite = (attackLeft ? attackUp? attack_lu: attackDown? attack_ld: attack_l: attackUp? attack_ru: attackDown? attack_rd: attack_r);
 		else {
 			if (mx == 0) newSprite = (lastMX < 0 ? idle_l : idle_r);
 			if (mx != 0) newSprite = (mx < 0 ? walking_l : walking_r);
@@ -107,7 +113,7 @@ public class Player extends BasicWalkingEntity implements Light {
 
 		if (attack > 0) {
 			if (attack > 5) {
-				HitBox attackHitBox = new HitBox(hitBox.getCenterX() + (attackLeft ? -0.875f : 0), hitBox.y, 0.875f, 0.875f);
+				HitBox attackHitBox = new HitBox(hitBox.getCenterX() + (attackLeft ? -0.875f : 0), hitBox.y + (attackUp? 0.875f: attackDown? -0.875f: 0), 0.875f, 0.875f);//TODO:
 
 				for (CollisionObject collisionObject : game.getCollisionObjects()) {
 					if (collisionObject.equals(this)) continue;
@@ -138,6 +144,8 @@ public class Player extends BasicWalkingEntity implements Light {
 
 		} else if (attacking && !attackingLastTick && interact == 0) {
 			attackLeft = lastMX < 0;
+			attackDown = my < 0;
+			attackUp = my > 0;
 			attack++;
 		}
 
