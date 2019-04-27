@@ -23,10 +23,10 @@ public class Player extends BasicWalkingEntity implements Light {
 	private static final int INTERACT_TICKS = 5;
 
 	private static Sprite attack_r = new Sprite(90, "player_r_sword_0", "player_r_sword_1", "player_r_sword_2", "player_r_sword_3", "player_r_sword_4", "player_r_sword_5", "player_r_sword_6");
-	private static Sprite walking_r = new Sprite(100, "player_r", "player_r", "player_r", "player_r");
+	private static Sprite walking_r = new Sprite(100, "player_idle_r", "player_walking_r_1", "player_idle_r", "player_walking_r_2");
 	private static Sprite idle_r = new Sprite(250, "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_0", "player_r_idle_1");
 	private static Sprite attack_l = new Sprite(90, "player_l_sword_0", "player_l_sword_1", "player_l_sword_2", "player_l_sword_3", "player_l_sword_4", "player_l_sword_5", "player_l_sword_6");
-	private static Sprite walking_l = new Sprite(100, "player_l", "player_l", "player_l", "player_l");
+	private static Sprite walking_l = new Sprite(100, "player_idle_l", "player_walking_l_1", "player_idle_l", "player_walking_l_2");
 	private static Sprite idle_l = new Sprite(250, "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_0", "player_l_idle_1");
 
 	private Set<Ability> abilities;								//The abilities of the player

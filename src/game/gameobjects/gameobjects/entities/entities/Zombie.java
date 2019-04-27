@@ -14,10 +14,10 @@ import java.util.Optional;
  * A zombie that follows the player
  */
 public class Zombie extends BasicWalkingEntity {
-	private static Sprite walking_r = new Sprite(250, "zombie_r_move_0", "zombie_r_move_1", "zombie_r_move_2", "zombie_r_move_3");
-	private static Sprite idle_r = new Sprite(250, "zombie_r_idle_0");
-	private static Sprite walking_l = new Sprite(250, "zombie_l_move_0", "zombie_l_move_1", "zombie_l_move_2", "zombie_l_move_3");
-	private static Sprite idle_l = new Sprite(250, "zombie_l_idle_0");
+	private static Sprite walking_r = new Sprite(250, "zombie_walking_r_0", "zombie_walking_r_1", "zombie_walking_r_2");
+	private static Sprite idle_r = new Sprite(250, "zombie_walking_r_0");
+	private static Sprite walking_l = new Sprite(250, "zombie_walking_r_0", "zombie_walking_r_1", "zombie_walking_r_2");//new Sprite(250, "zombie_walking_l_0", "zombie_walking_l_1", "zombie_walking_l_2", "zombie_walking_l_3");
+	private static Sprite idle_l = new Sprite(250, "zombie_walking_r_0");//new Sprite(250, "zombie_l_idle_0");
 
 	private Tree onDead;
 
@@ -39,7 +39,7 @@ public class Zombie extends BasicWalkingEntity {
 		if (mx == 0) newSprite = (lastMX < 0 ? idle_l : idle_r);
 		if (mx != 0) newSprite = (mx < 0 ? walking_l : walking_r);
 
-		if (!sprite.equals(newSprite)) setSprite(newSprite);
+		if (sprite !=(newSprite)) setSprite(newSprite);
 
 
 		Optional<Player> nearestPlayer = game.getPlayers().stream().sorted((p1, p2) -> Float.compare(hitBox.distance(p1.getHitBox()), hitBox.distance(p2.getHitBox()))).findFirst();

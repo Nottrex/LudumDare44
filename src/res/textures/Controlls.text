@@ -1,0 +1,22 @@
+21
+stick_left_0 1 1 13 13
+stick_left_1 14 1 13 13
+stick_left_2 27 1 13 13
+stick_left_3 40 1 13 13
+stick_right_0 1 14 13 13
+stick_right_1 14 14 13 13
+stick_right_2 27 14 13 13
+stick_right_3 40 14 13 13
+stick_up_0 1 27 13 13
+stick_up_1 14 27 13 13
+stick_up_2 27 27 13 13
+stick_up_3 40 27 13 13
+stick_down_0 1 40 13 13
+stick_down_1 14 40 13 13
+stick_down_2 27 40 13 13
+stick_down_3 40 40 13 13
+button_y 53 27 13 13
+button_x 53 40 13 13
+button_a 66 40 13 13
+button_b 66 27 13 13
+key 53 14 13 13
