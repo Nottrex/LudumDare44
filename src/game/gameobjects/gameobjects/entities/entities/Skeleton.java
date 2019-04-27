@@ -46,7 +46,7 @@ public class Skeleton extends BasicWalkingEntity {
 
 		lastAttack--;
 		if (nearestPlayer.isPresent()) {
-			if (Math.random() < 0.01 && lastAttack < 120) {
+			if (Math.random() < 0.005 && lastAttack < 120) {
 				float vx = nearestPlayer.get().getHitBox().getCenterX() - hitBox.getCenterX();
 				float vy = nearestPlayer.get().getHitBox().getCenterY() - hitBox.getCenterY();
 				double length = Math.sqrt(vx*vx+vy*vy);

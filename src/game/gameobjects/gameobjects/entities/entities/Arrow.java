@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
@@ -10,14 +11,25 @@ import game.gameobjects.gameobjects.entities.BasicMovingEntity;
 public class Arrow extends BasicMovingEntity {
 
 	private GameObject owner;
+	private float vx2;
+	private float vy2;
 
 	public Arrow(float x, float y, float drawingPriority, Sprite sprite, float vx, float vy, GameObject owner) {
-		super(new HitBox(x, y, 0.5f, 0.5f), drawingPriority);
+		super(new HitBox(x-0.125f, y-0.125f, 0.25f, 0.25f), drawingPriority);
 		this.setSprite(sprite);
 		this.owner = owner;
-		this.vx = vx;
-		this.vy = vy;
-}
+		this.vx2 = vx;
+		this.vy2 = vy;
+		this.hitBox.type = HitBox.HitBoxType.NOT_BLOCKING;
+	}
+
+	@Override
+	public void update(Game game) {
+		super.update(game);
+
+		this.vx = vx2;
+		this.vy = vy2;
+	}
 
 	@Override
 	public void collide(CollisionObject gameObject, HitBoxDirection direction, float velocity, boolean source) {

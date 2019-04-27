@@ -6,6 +6,7 @@ import game.data.Sprite;
 import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
+import game.gameobjects.gameobjects.entities.BasicMovingEntity;
 import game.gameobjects.gameobjects.entities.BasicWalkingEntity;
 import game.gameobjects.gameobjects.particle.ParticleType;
 import game.gameobjects.gameobjects.wall.Wall;
@@ -78,7 +79,7 @@ public class Player extends BasicWalkingEntity implements Light {
 		super.collide(gameObject, direction, velocity, source);
 
 		if (gameObject instanceof Zombie || gameObject instanceof Skeleton) {
-			Zombie zom = (Zombie) gameObject;
+			BasicMovingEntity zom = (BasicMovingEntity) gameObject;
 			float dx = (this.hitBox.getCenterX() - zom.getHitBox().getCenterX());
 			float dy = (this.hitBox.getCenterY() - zom.getHitBox().getCenterY());
 			double l = Math.sqrt(dx * dx + dy * dy);
