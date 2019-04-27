@@ -74,9 +74,9 @@ public class Player extends BasicWalkingEntity implements Light {
 	@Override
 	public void remove(Game game, boolean mapChange) {
 		super.remove(game, mapChange);
-
-		if (game.getDeadBodyHandler() != null)
-			game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, "player", color, lastMX > 0)));
+		if(!game.getMap().getName().equalsIgnoreCase("map1")) game.setGameMap("map1", true);
+		//if (game.getDeadBodyHandler() != null)
+			//game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, "player", color, lastMX > 0)));
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class Player extends BasicWalkingEntity implements Light {
 		Sprite newSprite = null;
 		if (attack > 0) newSprite = (attackLeft ? attackUp? attack_lu: attackDown? attack_ld: attack_l: attackUp? attack_ru: attackDown? attack_rd: attack_r);
 		else {
-			if (mx == 0) newSprite = (lastMX < 0 ? idle_l : idle_r);
+			if (mx == 0) newSprite = (lastMX < 0 ? walking_l : walking_r);
 			if (mx != 0) newSprite = (mx < 0 ? walking_l : walking_r);
 		}
 

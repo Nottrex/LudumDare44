@@ -7,6 +7,10 @@ import java.util.Random;
  */
 public class MathUtil {
 
+	public static double distance(int x, int y, int x2, int y2) {
+		return Math.sqrt(Math.pow(x-x2, 2) + Math.pow(y-y2, 2));
+	}
+
 	/**
 	 * @param x   the value to be checked
 	 * @param min the min allowed value

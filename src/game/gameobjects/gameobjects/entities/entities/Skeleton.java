@@ -11,10 +11,10 @@ import java.awt.*;
 import java.util.Optional;
 
 public class Skeleton extends BasicWalkingEntity {
-	private static Sprite walking_r = new Sprite(250, "skeleton_walking_r_0", "skeleton_walking_r_1", "skeleton_walking_r_2");
-	private static Sprite idle_r = new Sprite(250, "skeleton_walking_r_0");
-	private static Sprite walking_l = new Sprite(250, "skeleton_walking_l_0", "skeleton_walking_l_1", "skeleton_walking_l_2", "skeleton_walking_l_3");
-	private static Sprite idle_l = new Sprite(250, "skeleton_walking_l_0");
+	private static Sprite walking_r = new Sprite(250, "skeleton");//new Sprite(250, "skeleton_walking_r_0", "skeleton_walking_r_1", "skeleton_walking_r_2");
+	private static Sprite idle_r = new Sprite(250, "skeleton");
+	private static Sprite walking_l = new Sprite(250, "skeleton");//new Sprite(250, "skeleton_walking_l_0", "skeleton_walking_l_1", "skeleton_walking_l_2", "skeleton_walking_l_3");
+	private static Sprite idle_l = new Sprite(250, "skeleton");
 	private int lastAttack;
 
 	private Tree onDead;

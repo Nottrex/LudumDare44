@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MapLoader {
+
 	private static final File mapFolder = new File(System.getProperty("user.dir") + File.separator + "maps" + File.separator);
 
 	/**
@@ -42,6 +43,10 @@ public class MapLoader {
 			if (mapName.endsWith("options")) return createOptions(g);
 			if (mapName.endsWith("world")) return createLobby(g, getMaps(mapFolder, false));
 			if (mapName.endsWith("save")) return createSave(g);
+		}
+
+		if(mapName.endsWith("dungeon")) {
+			return GameMapFloor.generateRoom(g);
 		}
 
 		Scanner fileScanner;
@@ -186,7 +191,19 @@ public class MapLoader {
 					case "wall_door_closed":
 						String target = Constants.SYS_PREFIX + "world";
 						if (tags.containsKey("target")) target = map.getDirectory() + "/" + tags.get("target");
-						map.addGameObject(new Exit(x, y, drawingPriority, target, null));
+						String tag2 = tags.getOrDefault("tag", "door");
+						map.addGameObject(new Exit(x, y, drawingPriority, target, null, Parser.loadScript(Parser.COMMAND, String.format("#%s=(#%s+1);", tag2, tag2))));
+						g.setValue(tag2, 0);
+						break;
+					case "floor_door_closed_t":
+					case "floor_door_closed_d":
+					case "floor_door_closed_l":
+					case "floor_door_closed_r":
+					case "floor_door_open_t":
+					case "floor_door_open_d":
+					case "floor_door_open_l":
+					case "floor_door_open_r":
+						map.addGameObject(new DoorShade(x, y, drawingPriority,  texture.charAt(texture.length()-1)+"", Parser.loadScript(Parser.BOOLEAN, tags.getOrDefault("condition", "#door"))));
 						break;
 					case "floor_trap_0":
 					case "floor_trap_1":
@@ -313,7 +330,7 @@ public class MapLoader {
 						//map objects (door and texts)
 						if (section < mapNames.length && width == sectionWidth / 2) {
 							if (height == 1)
-								map.addGameObject(new Exit(xValue, yValue, 1, mapNames[section], null));
+								map.addGameObject(new Exit(xValue, yValue, 1, mapNames[section], null, null));
 							if (height == 3)
 								map.addGameObject(new Text(xValue + 0.5f, yValue, 0.7f, mapNames[section].split("/")[1], 0.5f, true, 0.5f, 0f, null));
 							if (height == 4)
@@ -360,7 +377,7 @@ public class MapLoader {
 
 				//exit
 				if (x == sectionWidth / 2 && y == 1) {
-					map.addGameObject(new Exit(xValue, yValue, 0.6f, Constants.SYS_PREFIX + "save", null));
+					map.addGameObject(new Exit(xValue, yValue, 0.6f, Constants.SYS_PREFIX + "save", null, null));
 					map.addGameObject(new Text(xValue + 0.5f, yValue + 2f, 0.6f, "save", 0.5f, true, 0.5f, 0f, null));
 					map.setSpawnPoint(xValue, yValue, 0.5f);
 				}
@@ -398,10 +415,10 @@ public class MapLoader {
 				game.saveValues(slot + "-" + dateFormat.format(new Date()));
 				game.clearValues();
 				return null;
-			})));
+			}), null));
 		}
 		map.setSpawnPoint(15, -16, 0.5f);
-		map.addGameObject(new Exit(15, -16, 0.6f, Constants.SYS_PREFIX + "world", null));
+		map.addGameObject(new Exit(15, -16, 0.6f, Constants.SYS_PREFIX + "world", null, null));
 		return map;
 	}
 
@@ -532,13 +549,13 @@ public class MapLoader {
 				map.addGameObject(new Exit(i * 8 - 1, -13, 1, Constants.SYS_PREFIX + "world", new Tree((tree, game) -> {
 					game.loadValues(slot + "-" + date);
 					return null;
-				})));
+				}), null));
 			} else {
 				//locked door
 			}
 		}
 		map.setSpawnPoint(15, -16, 0.5f);
-		map.addGameObject(new Exit(15, -16, 0.6f, Constants.SYS_PREFIX + "menu", null));
+		map.addGameObject(new Exit(15, -16, 0.6f, Constants.SYS_PREFIX + "menu", null, null));
 		return map;
 	}
 
@@ -549,7 +566,7 @@ public class MapLoader {
 	 * @param texture the texture name
 	 * @param drawingPriority the drawing priority of the texture
 	 */
-	private static void add(Map<Float, Map<HitBox, String>> layers, HitBox hitBox, String texture, float drawingPriority) {
+	protected static void add(Map<Float, Map<HitBox, String>> layers, HitBox hitBox, String texture, float drawingPriority) {
 		if (layers.containsKey(drawingPriority)) {
 			layers.get(drawingPriority).put(hitBox, texture);
 		} else {

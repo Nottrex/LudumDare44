@@ -3,33 +3,37 @@
 #2 - textures_block_border_6
 #3 - textures_block_border_7
 #4 - textures_block_border_9
-#5 - textures_block_border_10
+#5 - textures_border_5_2
 #6 - textures_block_border_14
-#7 - textures_block_border_11
-#8 - textures_wall
-#9 - textures_block_border_13
-#10 - textures_block_border_15
-#11 - textures_player_walking_l_1
-#12 - textures_chest_closed
-#13 - textures_lever_off
-#14 - textures_floor_trap_0
-#15 - textures_wall_door_closed
-#16 - textures_floor_door_closed_t
-#17 - textures_floor_1
-#18 - textures_floor_3
-#19 - textures_floor_2
-[layer; 0.5; 9; 15; 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, ; 2, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 5, 6, ; 2, 6, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 6, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 6, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 6, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 6, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, ; 3, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, ; ]
-[layer; 0.75; 9; 15; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 17, 17, 17, 17, 17, 17, 17, 17, 17, 0, 0, ; 0, 0, 0, 0, 17, 18, 18, 18, 17, 17, 17, 17, 17, 0, 0, ; 0, 0, 0, 0, 17, 18, 17, 18, 17, 19, 17, 17, 17, 0, 0, ; 0, 0, 0, 0, 17, 18, 18, 18, 18, 17, 17, 17, 17, 0, 0, ; 0, 0, 0, 0, 17, 17, 17, 17, 17, 17, 17, 17, 17, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; ]
-[put; 0.0; 11; 4.0; 11.0]
-[put; 0.0; 12; 4.0; 6.125; [tag; content; key]]
-[put; 0.0; 13; 4.0; 8.875; [tag; tag; lever1]]
-[put; 0.0; 14; 3.0; 7.0; [tag; condition; (1-#lever1)]]
-[put; 0.0; 14; 3.0; 6.0; [tag; condition; (1-#lever1)]]
-[put; 0.0; 14; 3.0; 5.0; [tag; condition; (1-#lever1)]]
-[put; 0.0; 14; 4.0; 5.0; [tag; condition; (1-#lever1)]]
-[put; 0.0; 14; 5.0; 5.0; [tag; condition; (1-#lever1)]]
-[put; 0.0; 14; 5.0; 6.0; [tag; condition; (1-#lever1)]]
-[put; 0.0; 14; 5.0; 7.0; [tag; condition; (1-#lever1)]]
-[put; 0.0; 14; 4.0; 7.0; [tag; condition; (1-#lever1)]]
-[put; 0.0; 15; 4.0; 3.0; [tag; tag; door1]; [tag; target; dungeon]]
-[put; 0.0; 16; 4.0; 4.0; [tag; condition; door1]]
+#7 - textures_border_7_2
+#8 - textures_block_border_11
+#9 - textures_wall
+#10 - textures_border_13_2
+#11 - textures_border_15_2
+#12 - textures_block_border_13
+#13 - textures_block_border_15
+#14 - textures_player_walking_l_1
+#15 - textures_chest_closed
+#16 - textures_lever_off
+#17 - textures_floor_trap_0
+#18 - textures_wall_door_closed
+#19 - textures_floor_door_closed_t
+#20 - textures_floor_1
+#21 - textures_floor_3
+#22 - textures_floor_2
+[layer; 0.5; 9; 15; 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, ; 2, 5, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 10, 6, ; 2, 6, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 6, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 6, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 6, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 6, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 2, 7, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 11, 6, ; 3, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 13, ; ]
+[layer; 0.75; 9; 15; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 20, 20, 20, 20, 20, 20, 20, 20, 20, 0, 0, ; 0, 0, 0, 0, 20, 21, 21, 21, 20, 20, 20, 20, 20, 0, 0, ; 0, 0, 0, 0, 20, 21, 20, 21, 20, 22, 20, 20, 20, 0, 0, ; 0, 0, 0, 0, 20, 21, 21, 21, 21, 20, 20, 20, 20, 0, 0, ; 0, 0, 0, 0, 20, 20, 20, 20, 20, 20, 20, 20, 20, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; ]
+[put; -0.1; 14; 4.0; 11.0]
+[put; 0.0; 15; 4.0; 6.125; [tag; content; key]]
+[put; 0.0; 16; 4.0; 8.875; [tag; tag; lever1]]
+[put; 0.0; 17; 3.0; 7.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 3.0; 6.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 3.0; 5.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 4.0; 5.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 5.0; 5.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 5.0; 6.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 5.0; 7.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 4.0; 7.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 18; 4.0; 3.0; [tag; tag; door1]; [tag; target; dungeon]]
+[put; 0.0; 19; 4.0; 4.0; [tag; condition; #door1]]
+[area; 1.75; 1.75; 7.125; 13.125]

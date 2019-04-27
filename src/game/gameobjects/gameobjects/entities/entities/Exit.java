@@ -18,13 +18,14 @@ public class Exit extends BasicStaticEntity {
 	private boolean opened = false;
 
 	private String targetMap;				//name of the new map
-	private Tree onEntrance;
+	private Tree onEntrance, onOpen;
 
-	public Exit(float x, float y, float drawingPriority, String targetMap, Tree onEntrance) {
+	public Exit(float x, float y, float drawingPriority, String targetMap, Tree onEntrance, Tree onOpen) {
 		super(new HitBox(x + 0.125f, y, 0.75f, 1), drawingPriority);
 
 		this.targetMap = targetMap;
 		this.onEntrance = onEntrance;
+		this.onOpen = onOpen;
 
 		this.hitBox.type = opened? HitBox.HitBoxType.NOT_BLOCKING: HitBox.HitBoxType.BLOCKING;
 		setSprite(opened? doorOpen: doorClosed);
@@ -58,6 +59,7 @@ public class Exit extends BasicStaticEntity {
 
 			if(!opened && p.removeItem("key")) {
 				opened = true;
+				if (onOpen != null) onOpen.get(game);
 				this.hitBox.type = opened? HitBox.HitBoxType.NOT_BLOCKING: HitBox.HitBoxType.BLOCKING;
 				setSprite(opened? doorOpen: doorClosed);
 			}
