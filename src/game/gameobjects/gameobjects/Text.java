@@ -42,6 +42,7 @@ public class Text extends AbstractGameObject implements Drawable {
 	private Sprite buttonX = new Sprite(100, "button_x");
 	private Sprite buttonY = new Sprite(100, "button_y");
 	private Sprite key = new Sprite(100, "key");
+	private Sprite potion = new Sprite(100, "potion");
 
 	private float x, y, size, drawingPriority;
 	private boolean useCamera;
@@ -332,6 +333,12 @@ public class Text extends AbstractGameObject implements Drawable {
 					break;
 				case "coin":
 					animations.put(index, coin);
+					break;
+				case "keys":
+					animations.put(index, key);
+					break;
+				case "potion":
+					animations.put(index, potion);
 					break;
 				case "key_up":
 					animations.put(index, key);

@@ -1,6 +1,5 @@
 package game.gameobjects.gameobjects.entities.entities;
 
-import game.Ability;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -37,16 +36,16 @@ public class Player extends BasicWalkingEntity implements Light {
 	private static Sprite attack_ru = new Sprite(90, "player_attack_r_0", "player_attack_ur_1", "player_attack_ur_2", "player_attack_ur_3", "player_attack_ur_4", "player_attack_ur_5", "player_attack_r_6");
 	private static Sprite attack_rd = new Sprite(90, "player_attack_r_0", "player_attack_dr_1", "player_attack_dr_2", "player_attack_dr_3", "player_attack_dr_4", "player_attack_dr_5", "player_attack_dr_6", "player_attack_dr_7", "player_attack_r_6");
 
-	private Set<Ability> abilities;								//The abilities of the player
 	private boolean attackingLastTick, interactingLastTick;
 	private boolean attacking, interacting;
 	private int attack, interact;
 	private boolean attackLeft, attackDown, attackUp;
 
+	private static int keys = 0, potions = 0;
+
 	public Player(float x, float y, float drawingPriority) {
 		super(new HitBox(x, y, 0.75f, 0.875f), drawingPriority);
 
-		abilities = new HashSet<>();
 		attacking = false;
 		interacting = false;
 		attackingLastTick = false;
@@ -98,9 +97,6 @@ public class Player extends BasicWalkingEntity implements Light {
 	@Override
 	public void update(Game game) {
 		super.update(game);	//TODO: Cancel movement when attacking
-
-		if (game.getMap().getDirectory() == null)
-			this.addAbility(Ability.DOUBLE_JUMP);
 
 		Sprite newSprite = null;
 		if (attack > 0) newSprite = (attackLeft ? attackUp? attack_lu: attackDown? attack_ld: attack_l: attackUp? attack_ru: attackDown? attack_rd: attack_r);
@@ -211,7 +207,6 @@ public class Player extends BasicWalkingEntity implements Light {
 		hitBox.y = y;
 		vx = 0;
 		vy = 0;
-		removeAllAbilities();
 		setDrawingPriority(drawingPriority);
 	}
 
@@ -228,19 +223,31 @@ public class Player extends BasicWalkingEntity implements Light {
 		this.interacting = interacting;
 	}
 
-	public void addAbility(Ability ability) {
-		abilities.add(ability);
+	public void addItem(String item) {
+		if(item.equalsIgnoreCase("key")) keys++;
+		else if(item.equalsIgnoreCase("potion")) potions++;
+		System.out.println("Added item: " + item + "[" + getItem(item) + "]");
 	}
 
-	public void removeAbility(Ability ability) {
-		abilities.remove(ability);
+	public boolean removeItem(String item) {
+		if(item.equalsIgnoreCase("key")) {
+			if(keys > 0) {
+				keys--;
+				return true;
+			}
+		}
+		else if(item.equalsIgnoreCase("potion")) {
+			if(potions > 0) {
+				potions--;
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public void removeAllAbilities() {
-		abilities = new HashSet<>();
-	}
-
-	public boolean hasAbility(Ability ability) {
-		return abilities.contains(ability);
+	public int getItem(String item) {
+		if(item.equalsIgnoreCase("key")) return keys;
+		else if(item.equalsIgnoreCase("potion")) return potions;
+		return -1;
 	}
 }

@@ -12,8 +12,10 @@ import game.gameobjects.gameobjects.entities.BasicStaticEntity;
  * A door used to go into a new map
  */
 public class Exit extends BasicStaticEntity {
-	private static Sprite door = new Sprite(1, "door_side");
-	private static Sprite doorOpen = new Sprite(100, "door_side_open_0", "door_side_open_1", "door_side_open_2", "door_side_open_2", "door_side_open_2", "door_side_open_2");
+	private static Sprite doorClosed = new Sprite(1, "wall_door_closed");
+	private static Sprite doorOpen = new Sprite(100, "door_side");
+
+	private boolean opened = false;
 
 	private String targetMap;				//name of the new map
 	private Tree onEntrance;
@@ -24,12 +26,12 @@ public class Exit extends BasicStaticEntity {
 		this.targetMap = targetMap;
 		this.onEntrance = onEntrance;
 
-		setSprite(door);
+		this.hitBox.type = opened? HitBox.HitBoxType.NOT_BLOCKING: HitBox.HitBoxType.BLOCKING;
+		setSprite(opened? doorOpen: doorClosed);
 	}
 
 	@Override
 	public void update(Game game) {
-
 	}
 
 	@Override
@@ -44,11 +46,22 @@ public class Exit extends BasicStaticEntity {
 
 	@Override
 	public void interact(CollisionObject gameObject, HitBox hitBox, InteractionType interactionType) {
-		if (gameObject instanceof Player && interactionType == InteractionType.INTERACT) {
-			if (game.setGameMap(targetMap, true)) {
-				setSprite(doorOpen);
-				if (onEntrance != null) onEntrance.get(game);
+		if (gameObject instanceof Player) {
+			Player p = (Player) gameObject;
+
+			if(opened && interactionType == InteractionType.INTERACT) {
+				if (game.setGameMap(targetMap, true)) {
+					setSprite(doorOpen);
+					if (onEntrance != null) onEntrance.get(game);
+				}
+			} else game.getCamera().addScreenshake(0.001f);
+
+			if(!opened && p.removeItem("key")) {
+				opened = true;
+				this.hitBox.type = opened? HitBox.HitBoxType.NOT_BLOCKING: HitBox.HitBoxType.BLOCKING;
+				setSprite(opened? doorOpen: doorClosed);
 			}
+
 		}
 	}
 

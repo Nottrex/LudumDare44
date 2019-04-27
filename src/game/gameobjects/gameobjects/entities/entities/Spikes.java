@@ -4,6 +4,7 @@ import game.Game;
 import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.data.Sprite;
+import game.data.script.Tree;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.GameObject;
 import game.gameobjects.gameobjects.entities.BasicStaticEntity;
@@ -12,35 +13,34 @@ import game.gameobjects.gameobjects.entities.BasicStaticEntity;
  * kill players and zombies on collision
  */
 public class Spikes extends BasicStaticEntity {
-	private static Sprite down = new Sprite(100, "spikes_bot_blood");
-	private static Sprite up = new Sprite(100, "spikes_top_blood");
-	private static Sprite right = new Sprite(100, "spikes_right_blood");
-	private static Sprite left = new Sprite(100, "spikes_left_blood");
+	private static Sprite idle = new Sprite(200, "floor_trap_0","floor_trap_0","floor_trap_0","floor_trap_0", "floor_trap_1", "floor_trap_2", "floor_trap_1"),
+						  attack= new Sprite(200, "floor_trap_0", "floor_trap_1", "floor_trap_2", "floor_trap_3", "floor_trap_4", "floor_trap_3", "floor_trap_2", "floor_trap_1"),
+						  deactivated = new Sprite(1, "floor_trap_0");
 
-	public enum SpikeDirection {
-		UP(up), DOWN(down), LEFT(left), RIGHT(right);
+	private boolean activated = true;
 
-		private Sprite sprite;
+	private Tree condition;
 
-		SpikeDirection(Sprite sprite) {
-			this.sprite = sprite;
-		}
-
-		Sprite getSprite() {
-			return sprite;
-		}
-	}
-
-	public Spikes(float x, float y, float drawingPriority, SpikeDirection spikeDirection) {
+	//TODO: proper "attack"
+	public Spikes(float x, float y, float drawingPriority, Tree condition) {
 		super(new HitBox(x, y, 1f, 1f), drawingPriority);
 
-		setSprite(spikeDirection.getSprite());
+		this.condition = condition;
+		setSprite(activated? idle: deactivated);
+	}
+
+	@Override
+	public void init(Game game) {
+		this.game = game;
+
+		this.activated = (boolean) condition.get(game);
+		setSprite(activated? idle: deactivated);
 	}
 
 	@Override
 	public void collide(CollisionObject gameObject, HitBoxDirection direction, float velocity, boolean source) {
 		if (gameObject instanceof Player || gameObject instanceof Zombie) {
-			game.removeGameObject((GameObject) gameObject);
+			if(activated) game.removeGameObject((GameObject) gameObject);
 		}
 	}
 
@@ -51,7 +51,10 @@ public class Spikes extends BasicStaticEntity {
 
 	@Override
 	public void update(Game game) {
-
+		if((boolean) condition.get(game) != activated) {
+			this.activated = (boolean) condition.get(game);
+			setSprite(activated? idle: deactivated);
+		}
 	}
 
 	@Override

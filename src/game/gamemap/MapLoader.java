@@ -182,96 +182,28 @@ public class MapLoader {
 						map.setSpawnPoint(x, y, drawingPriority);
 						map.getCameraController().setSpawn(x, y);
 						break;
-					case "ability_gate_left":
-						Map<Ability, Boolean> abilities = new HashMap<>();
-						for (Ability ability : Ability.values()) {
-							abilities.put(ability, tags.getOrDefault("add", "").toUpperCase().contains(ability.toString()));
-						}
-						map.addGameObject(new AbilityGate(x, y, drawingPriority, abilities, false));
-						break;
-					case "ability_gate_right":
-						abilities = new HashMap<>();
-						for (Ability ability : Ability.values()) {
-							abilities.put(ability, tags.getOrDefault("add", "").toUpperCase().contains(ability.toString()));
-						}
-						map.addGameObject(new AbilityGate(x, y, drawingPriority, abilities, true));
-						break;
-					case "coin":
-						String coinID = String.format("%s_coin_%s_%f_%f", map.getDirectory(), map.getName(), x, y);
-						if (g.getValue(coinID) == 0) g.setValue(coinID, 0);
-						map.addGameObject(new Coin(x, y, drawingPriority, g.getValue(coinID) > 0, new Tree((tree, game) -> {
-							game.setValue(coinID, 1);                                            //Mark this coin as collected
-							game.setValue("coins", game.getValue("coins") + 1);            //Raise the total amount of collected coins
-							return null;
-						}), null));
-						break;
 					case "door_side":
-					case "door_side_open_0":
-					case "door_side_open_1":
-					case "door_side_open":
+					case "wall_door_closed":
 						String target = Constants.SYS_PREFIX + "world";
 						if (tags.containsKey("target")) target = map.getDirectory() + "/" + tags.get("target");
 						map.addGameObject(new Exit(x, y, drawingPriority, target, null));
 						break;
-					case "lantern_off":
-						map.addGameObject(new Lantern(x, y, drawingPriority, Parser.loadScript(Parser.BOOLEAN, tags.getOrDefault("condition", "false"))));
+					case "floor_trap_0":
+					case "floor_trap_1":
+					case "floor_trap_2":
+					case "floor_trap_3":
+					case "floor_trap_4":
+						map.addGameObject(new Spikes(x, y, drawingPriority, Parser.loadScript(Parser.BOOLEAN, tags.getOrDefault("condition", "#lever"))));
 						break;
-					case "lantern":
-						map.addGameObject(new Lantern(x, y, drawingPriority, Parser.loadScript(Parser.BOOLEAN, tags.getOrDefault("condition", "true"))));
+					case "chest_open":
+					case "chest_closed":
+						map.addGameObject(new Chest(x, y, drawingPriority, tags.getOrDefault("content", "key")));
 						break;
-					case "box":
-						map.addGameObject(new Box(x, y, drawingPriority));
-						break;
-					case "spikes_top_blood":
-						map.addGameObject(new Spikes(x, y, drawingPriority, Spikes.SpikeDirection.UP));
-						break;
-					case "spikes_right_blood":
-						map.addGameObject(new Spikes(x, y, drawingPriority, Spikes.SpikeDirection.RIGHT));
-						break;
-					case "spikes_left_blood":
-						map.addGameObject(new Spikes(x, y, drawingPriority, Spikes.SpikeDirection.LEFT));
-						break;
-					case "spikes_bot_blood":
-						map.addGameObject(new Spikes(x, y, drawingPriority, Spikes.SpikeDirection.DOWN));
-						break;
-					case "lever_left":
-					case "lever_right":
-					case "lever_middle":
+					case "lever_on":
+					case "lever_off":
 						String tag = tags.getOrDefault("tag", "lever");
 						map.addGameObject(new Lever(x, y, drawingPriority, false, Parser.loadScript(Parser.COMMAND, String.format("#%s=(#%s+1);", tag, tag)), Parser.loadScript(Parser.COMMAND, String.format("#%s=(#%s-1);", tag, tag)), null));
 						g.setValue(tag, 0);
-						break;
-					case "pressureplate":
-					case "pressureplate_pressed":
-						tag = tags.getOrDefault("tag", "pressureplate");
-						if (tags.containsKey("onActivated") || tags.containsKey("onDeActivated")) {
-							map.addGameObject(new PressurePlate(x, y, drawingPriority, Parser.loadScript(Parser.COMMAND_BLOCK, tags.getOrDefault("onActivated", "")), Parser.loadScript(Parser.COMMAND_BLOCK, tags.getOrDefault("onDeActivated", ""))));
-						} else {
-							map.addGameObject(new PressurePlate(x, y, drawingPriority, Parser.loadScript(Parser.COMMAND, String.format("#%s=(#%s+1);", tag, tag)), Parser.loadScript(Parser.COMMAND, String.format("#%s=(#%s-1);", tag, tag))));
-						}
-						break;
-					case "door_6":
-					case "door_5":
-					case "door_4":
-					case "door_3":
-					case "door_2":
-					case "door_1":
-						map.addGameObject(new Door(x, y, drawingPriority, Parser.loadScript(Parser.BOOLEAN, tags.getOrDefault("condition", "#lever"))));
-						break;
-					case "piano":
-						map.addGameObject(new Piano(x, y, drawingPriority));
-						break;
-					case "petroleum_yellow":
-						map.addGameObject(new PetroleumLamp(x, y, drawingPriority, PetroleumLamp.PetroleumColor.YELLOW));
-						break;
-					case "petroleum_orange":
-						map.addGameObject(new PetroleumLamp(x, y, drawingPriority, PetroleumLamp.PetroleumColor.ORANGE));
-						break;
-					case "petroleum_red":
-						map.addGameObject(new PetroleumLamp(x, y, drawingPriority, PetroleumLamp.PetroleumColor.RED));
-						break;
-					case "petroleum_darkRed":
-						map.addGameObject(new PetroleumLamp(x, y, drawingPriority, PetroleumLamp.PetroleumColor.DARK_RED));
 						break;
 					case "zombie_walking_l_0":
 					case "zombie_walking_l_1":
@@ -285,23 +217,6 @@ public class MapLoader {
 						break;
 					case "skeleton":
 						map.addGameObject(new Skeleton(x, y, drawingPriority, Parser.loadScript(Parser.COMMAND_BLOCK, tags.getOrDefault("onDead", ""))));
-						break;
-					case "barrel":
-					case "barrel_0":
-					case "barrel_1":
-					case "barrel_2":
-					case "barrel_3":
-						map.addGameObject(new BeerBarrel(x, y, drawingPriority));
-						break;
-					case "ex_barrel_stand_s":
-					case "ex_barrel_stand_l":
-					case "ex_barrel_stand_e_0":
-					case "ex_barrel_stand_e_1":
-					case "ex_barrel_ground_s":
-					case "ex_barrel_ground_l":
-					case "ex_barrel_ground_e_0":
-					case "ex_barrel_ground_e_1":
-						map.addGameObject(new ExplosiveBarrel(x, y, drawingPriority, true));
 						break;
 					case "a":
 					case "b":
@@ -333,7 +248,6 @@ public class MapLoader {
 						break;
 					default:
 						HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
-
 						add(layers, hitBox, texture, drawingPriority);
 				}
 			}

@@ -48,7 +48,8 @@ public class Game {
 
 	private Map<String, Integer> values;			//store all in game variables -> SaveGame
 
-	private Text coinCounter;						//display coin amount on the screen
+	private Text keyCounter;						//display key amount on the screen
+	private Text potionCounter;						//display key amount on the screen
 
 	public Game(Window window) {
 		this.window = window;
@@ -69,8 +70,10 @@ public class Game {
 
 		values = new HashMap<>();
 
-		coinCounter = new Text(1, 0.98f, -1000, "<#coins>", 0.1f, false, 1f, 1f, null);
-		addGameObject(coinCounter);
+		keyCounter = new Text(1, 0.98f, -1000, "<#keys>", 0.1f, false, 1f, 1f, null);
+		potionCounter = new Text(1, 0.80f, -1000, "<#potion>", 0.1f, false, 1f, 1f, null);
+		addGameObject(keyCounter);
+		addGameObject(potionCounter);
 
 		//Start the game in the "menu" map
 		setGameMap("map1", false);
@@ -91,11 +94,16 @@ public class Game {
 			handleInput();
 			audioPlayer.update();
 
-			//update coinCounter
-			if (map == null || map.getDirectory() == null || map.getDirectory().equals("hidden"))
-				coinCounter.setText("");
-			else
-				coinCounter.setText(getKeyAmount(map.getDirectory() + "_coin_" + map.getName(), 1) + "/" + getKeyAmount(map.getDirectory() + "_coin_" + map.getName()) + " <coin>");
+			//update keyCounter
+			if (map == null || map.getDirectory() == null || map.getDirectory().equals("hidden")) {
+				keyCounter.setText("");
+				potionCounter.setText("");
+			}
+			else {
+				boolean pre = players.size() > 0 && players.get(0) != null;
+				keyCounter.setText((pre ? players.get(0).getItem("key") : 0) + " <keys>");
+				potionCounter.setText((pre ? players.get(0).getItem("potion") : 0) + " <potion>");
+			}
 
 			//change map
 			if (newMap != null && gameTick - fadeStart >= Constants.FADE_TIME / 2) {

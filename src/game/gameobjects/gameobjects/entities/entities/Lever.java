@@ -12,10 +12,8 @@ import game.gameobjects.gameobjects.entities.BasicStaticEntity;
  * A lever that can be switched
  */
 public class Lever extends BasicStaticEntity {
-	private static Sprite right = new Sprite(100, "lever_right");
-	private static Sprite left = new Sprite(100, "lever_left");
-	private static Sprite changingLeft = new Sprite(350, "lever_right_2", "lever_middle", "lever_left_2", "lever_left");
-	private static Sprite changingRight = new Sprite(350, "lever_left_2", "lever_middle", "lever_right_2", "lever_right");
+	private static Sprite right = new Sprite(100, "lever_on");
+	private static Sprite left = new Sprite(100, "lever_off");
 
 	private boolean activated;
 	private boolean turning;
@@ -27,7 +25,7 @@ public class Lever extends BasicStaticEntity {
 		super(new HitBox(x, y, 1f, 1f), drawingPriority);
 
 		this.activated = activated;
-		setSprite(activated ? left : right);
+		setSprite(activated ? right : left);
 
 		this.onActivate = onActivate;
 		this.onDeactivate = onDeactivate;
@@ -49,7 +47,7 @@ public class Lever extends BasicStaticEntity {
 			if (!turning) {
 				turning = true;
 				startTick = game.getGameTick();
-				setSprite(activated ? changingRight : changingLeft);
+				setSprite(activated ? right : left);
 			}
 		}
 	}
@@ -64,7 +62,7 @@ public class Lever extends BasicStaticEntity {
 				if (activated && onActivate != null) onActivate.get(game);
 				if (!activated && onDeactivate != null) onDeactivate.get(game);
 
-				setSprite(activated ? left : right);
+				setSprite(activated ? right : left);
 			}
 		}
 	}
@@ -93,6 +91,6 @@ public class Lever extends BasicStaticEntity {
 
 	public void setActivated(boolean activated) {
 		this.activated = activated;
-		setSprite(activated ? left : right);
+		setSprite(activated ? right : left);
 	}
 }
