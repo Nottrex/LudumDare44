@@ -44,7 +44,6 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 		if (sprite == null) return;
 
 		Rectangle bounds = sprite.getTexture(startTime, time);
-
 		BasicShader shader = (BasicShader) window.getShaderHandler().getShader(ShaderType.BASIC_SHADER);
 
 		shader.start();

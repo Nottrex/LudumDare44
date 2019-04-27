@@ -197,9 +197,8 @@ public class Game {
 			Player player = players.get(i);
 			int input = inputs.get(i);
 
-			player.setJumping(keyboard.isPressed(Options.controls.get("UP" + input)));
 			player.setMx(keyboard.getPressed(Options.controls.get("RIGHT" + input)) - keyboard.getPressed(Options.controls.get("LEFT" + input)));
-			player.setDown(keyboard.isPressed(Options.controls.get("DOWN" + input)));
+			player.setMy(keyboard.getPressed(Options.controls.get("UP" + input)) -  keyboard.getPressed(Options.controls.get("DOWN"+input)));
 			player.setInteracting(keyboard.isPressed(Options.controls.get("INTERACT" + input)));
 			player.setAttacking(keyboard.isPressed(Options.controls.get("ATTACK" + input)));
 			if (keyboard.isPressed(Options.controls.get("RESET" + input))) restartMap();

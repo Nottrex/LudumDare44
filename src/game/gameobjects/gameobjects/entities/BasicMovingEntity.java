@@ -58,8 +58,6 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 		HitBox targetLocation = hitBox.clone();
 		targetLocation.move(vx, vy);
 
-		boolean fallThroughBlock = fallThroughBlock();
-
 		boolean collision;
 		do {
 			collision = false;
@@ -72,10 +70,6 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 						collides.add(collisionObject);
 						directions.add(direction);
 
-						if (direction == HitBoxDirection.COLLIDE || hitBox2.type == HitBox.HitBoxType.NOT_BLOCKING || (hitBox2.type == HitBox.HitBoxType.HALF_BLOCKING && (direction != HitBoxDirection.DOWN || fallThroughBlock))) {
-							velocities.add(0f);
-							continue;
-						}
 						collision = true;
 
 						float ax = direction.getXDirection();
@@ -138,16 +132,6 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 			addKnockBack(0.4f * dx, 0.4f * dy);
 			lastAttackKnockBack = game.getGameTick();
 		}
-
-		if (interactionType == InteractionType.STOMP) {
-			float dx = (this.hitBox.getCenterX() - hitBox.getCenterX());
-			float dy = (this.hitBox.getCenterY() - hitBox.getCenterY());
-			double l = Math.sqrt(dx * dx + dy * dy);
-			dx /= l;
-			dy /= l;
-			addKnockBack(0.6f * dx, 0.6f * dy);
-			lastAttackKnockBack = game.getGameTick();
-		}
 	}
 
 	@Override
@@ -156,8 +140,6 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 			((BasicMovingEntity) gameObject).addKnockBack(direction.getXDirection() * velocity / 20, 0);
 		}
 	}
-
-	protected abstract boolean fallThroughBlock();
 
 	@Override
 	public final List<HitBox> getCollisionBoxes() {

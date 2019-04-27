@@ -16,10 +16,8 @@ import java.util.Optional;
 public class Zombie extends BasicWalkingEntity {
 	private static Sprite walking_r = new Sprite(250, "zombie_r_move_0", "zombie_r_move_1", "zombie_r_move_2", "zombie_r_move_3");
 	private static Sprite idle_r = new Sprite(250, "zombie_r_idle_0");
-	private static Sprite falling_r = new Sprite(250, "zombie_r_fall");
 	private static Sprite walking_l = new Sprite(250, "zombie_l_move_0", "zombie_l_move_1", "zombie_l_move_2", "zombie_l_move_3");
 	private static Sprite idle_l = new Sprite(250, "zombie_l_idle_0");
-	private static Sprite falling_l = new Sprite(250, "zombie_l_fall");
 
 	private Tree onDead;
 
@@ -31,7 +29,6 @@ public class Zombie extends BasicWalkingEntity {
 		this.onDead = onDead;
 
 		setMaxSpeed(0.15f);
-		setMaxJumpHeight(0.9f);
 	}
 
 	@Override
@@ -39,10 +36,8 @@ public class Zombie extends BasicWalkingEntity {
 		super.update(game);
 
 		Sprite newSprite = null;
-		if (!onGround && mx != 0) newSprite = (mx < 0 ? falling_l : falling_r);
-		if (!onGround && mx == 0) newSprite = (lastMX < 0 ? falling_l : falling_r);
-		if (onGround && mx == 0) newSprite = (lastMX < 0 ? idle_l : idle_r);
-		if (onGround && mx != 0) newSprite = (mx < 0 ? walking_l : walking_r);
+		if (mx == 0) newSprite = (lastMX < 0 ? idle_l : idle_r);
+		if (mx != 0) newSprite = (mx < 0 ? walking_l : walking_r);
 
 		if (!sprite.equals(newSprite)) setSprite(newSprite);
 
@@ -51,13 +46,11 @@ public class Zombie extends BasicWalkingEntity {
 
 		if (nearestPlayer.isPresent()) {
 			Player p = nearestPlayer.get();
-			setDown(hitBox.getCenterY() > p.getHitBox().getCenterY());
-			setJumping((game.getGameTick() % 60 == 0 && hitBox.getCenterY() < p.getHitBox().getCenterY() - 1) || jumpTicks > 0);
 			setMx(p.getHitBox().getCenterX() - hitBox.getCenterX());
+			setMy(p.getHitBox().getCenterY() - hitBox.getCenterY());
 		} else {
-			setDown(false);
-			setJumping(false);
 			setMx((game.getGameTick() % 121) - 60);
+			setMy(((game.getGameTick()+30) % 121) - 60);
 		}
 	}
 

@@ -1,6 +1,6 @@
 61
 block_border_5_2 116 91 8 8
-wall_door_open 1 65 8 8
+door_side 1 65 8 8
 needle_l 35 99 8 3
 needle_r 84 52 8 3
 needle_t 97 77 3 8
@@ -59,4 +59,4 @@ bone_3 80 19 9 9
 key 23 88 8 8
 bone_2 99 29 9 9
 bone_1 118 118 9 9
-bone_0 64 71 9 9
+texture_error 64 71 9 9

@@ -277,10 +277,6 @@ public class MapLoader {
 					case "door_1":
 						map.addGameObject(new Door(x, y, drawingPriority, Parser.loadScript(Parser.BOOLEAN, tags.getOrDefault("condition", "#lever"))));
 						break;
-					case "wood_ladder":
-					case "steel_ladder":
-						map.addGameObject(new Ladder(x, y, drawingPriority));
-						break;
 					case "piano":
 						map.addGameObject(new Piano(x, y, drawingPriority));
 						break;

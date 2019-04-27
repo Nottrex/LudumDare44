@@ -47,10 +47,6 @@ public class Slider extends BasicMovingEntity {
 		currentX = hitBox.x;
 	}
 
-	@Override
-	protected boolean fallThroughBlock() {
-		return false;
-	}
 
 	@Override
 	public float getCollisionPriority() {

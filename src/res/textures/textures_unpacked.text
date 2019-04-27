@@ -2,7 +2,7 @@
 chest_closed 25 0 7 7
 chest_open 33 0 7 7
 wall 24 24 8 8
-wall_door_open 16 24 8 8
+door_side 16 24 8 8
 wall_door_closed 8 24 8 8
 block_border_0 152 32 8 8
 block_border_1 160 32 8 8
