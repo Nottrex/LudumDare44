@@ -1,4 +1,4 @@
-81
+84
 chest_closed 25 0 7 7
 chest_open 33 0 7 7
 wall 24 24 8 8
@@ -55,14 +55,14 @@ player_walking_r_2 80 8 8 8
 player_attack_l_0 56 72 16 8
 player_attack_l_1 56 87 16 10
 player_attack_l_2 53 102 22 12
-player_attack_l_3 53 118 22 12
+player_attack_l_3 53 119 22 10
 player_attack_l_4 55 128 18 8
 player_attack_l_5 56 136 16 8
 player_attack_l_6 56 144 16 8
 player_attack_r_0 72 72 16 8
 player_attack_r_1 72 87 16 10
 player_attack_r_2 69 102 22 12
-player_attack_r_3 69 118 22 12
+player_attack_r_3 69 119 22 10
 player_attack_r_4 71 128 18 8
 player_attack_r_5 72 136 16 8
 player_attack_r_6 72 144 16 8

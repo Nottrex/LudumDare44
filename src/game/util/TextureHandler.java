@@ -66,7 +66,7 @@ public class TextureHandler {
 				try {
 					String[] line = s.nextLine().split(" ");
 
-					String texture = line[0];
+					String texture = line[0].toLowerCase();
 					int x = Integer.valueOf(line[1]);
 					int y = Integer.valueOf(line[2]);
 					int width = Integer.valueOf(line[3]);
