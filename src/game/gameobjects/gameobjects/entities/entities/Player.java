@@ -12,13 +12,11 @@ import game.gameobjects.gameobjects.wall.Wall;
 import game.window.Window;
 import game.window.light.Light;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * The player class
  */
 public class Player extends BasicWalkingEntity implements Light {
+
 	private static final int ATTACK_TICKS = 30;
 	private static final int INTERACT_TICKS = 5;
 
@@ -91,18 +89,23 @@ public class Player extends BasicWalkingEntity implements Light {
 			dx /= l;
 			dy /= l;
 			addKnockBack(0.4f * dx, 0.4f * dy);
+
+			game.damagePlayer(10, false);
 		}
 	}
 
 	@Override
 	public void update(Game game) {
-		super.update(game);	//TODO: Cancel movement when attacking
-
+		super.update(game);
 		Sprite newSprite = null;
-		if (attack > 0) newSprite = (attackLeft ? attackUp? attack_lu: attackDown? attack_ld: attack_l: attackUp? attack_ru: attackDown? attack_rd: attack_r);
+		if (attack > 0) {
+			setMaxSpeed(0.15f);
+			newSprite = (attackLeft ? attackUp? attack_lu: attackDown? attack_ld: attack_l: attackUp? attack_ru: attackDown? attack_rd: attack_r);
+		}
 		else {
 			if (mx == 0) newSprite = (lastMX < 0 ? walking_l : walking_r);
 			if (mx != 0) newSprite = (mx < 0 ? walking_l : walking_r);
+			setMaxSpeed(1);
 		}
 
 		if (!sprite.equals(newSprite)) setSprite(newSprite);

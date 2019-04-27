@@ -62,7 +62,7 @@ public class Zombie extends BasicWalkingEntity {
 
 		if (!mapChange) {
 			if (game.getDeadBodyHandler() != null)
-				game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, "zombie", Color.BLACK, lastMX > 0)));
+				game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, getDrawingPriority(),"zombie", Color.BLACK, lastMX > 0)));
 		}
 	}
 

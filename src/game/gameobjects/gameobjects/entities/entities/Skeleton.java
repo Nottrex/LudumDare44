@@ -69,7 +69,7 @@ public class Skeleton extends BasicWalkingEntity {
 
 		if (!mapChange) {
 			if (game.getDeadBodyHandler() != null)
-				game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, "skeleton", Color.BLACK, lastMX > 0)));
+				game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, getDrawingPriority(),"skeleton", Color.BLACK, lastMX > 0)));
 		}
 	}
 

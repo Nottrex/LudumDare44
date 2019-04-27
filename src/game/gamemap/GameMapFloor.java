@@ -93,7 +93,7 @@ public class GameMapFloor {
 		}
 
 		map.getCameraController().addCameraArea(new Area(0, 0, maxX-minX+5, maxY-minY+5));	//TODO: this
-		map.setSpawnPoint(-minX, -minY+3, 0.4f);
+		map.setSpawnPoint(-minX, -minY+0.5f, 0.4f);
 		return map;
 	}
 

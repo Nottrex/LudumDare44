@@ -26,6 +26,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Game {
 	private Window window;							//displays the game
 
+	private long lastAttackFrame = TimeUtil.getTime(), lastTimeDamage = TimeUtil.getTime();
+	private int playerHealth = 200;
+
 	private int gameTick;							//current tick of the game (starts at 0) -> 60 Ticks Per Second
 
 	private List<GameObject> gameObjects;			//list of gameObjects, that are updated every tick
@@ -50,6 +53,7 @@ public class Game {
 
 	private Text keyCounter;						//display key amount on the screen
 	private Text potionCounter;						//display key amount on the screen
+	private Text healthDisplay;
 
 	public Game(Window window) {
 		this.window = window;
@@ -72,8 +76,10 @@ public class Game {
 
 		keyCounter = new Text(1, 0.98f, -1000, "<#keys>", 0.1f, false, 1f, 1f, null);
 		potionCounter = new Text(1, 0.80f, -1000, "<#potion>", 0.1f, false, 1f, 1f, null);
+		healthDisplay = new Text(-0.8f, 0.98f, -1000, playerHealth+"", 0.1f, false, 1f, 1f, null);
 		addGameObject(keyCounter);
 		addGameObject(potionCounter);
+		addGameObject(healthDisplay);
 
 		//Start the game in the "menu" map
 		setGameMap("map1", false);
@@ -104,6 +110,14 @@ public class Game {
 				keyCounter.setText((pre ? players.get(0).getItem("key") : 0) + " <keys>");
 				potionCounter.setText((pre ? players.get(0).getItem("potion") : 0) + " <potion>");
 			}
+
+			if(time > lastTimeDamage +500) {
+				lastTimeDamage = time;
+				damagePlayer(1, true);
+			}
+
+			healthDisplay.setText(Math.max(playerHealth, 0)+"");
+			if(playerHealth < 0) removeGameObject(players.get(0));
 
 			//change map
 			if (newMap != null && gameTick - fadeStart >= Constants.FADE_TIME / 2) {
@@ -407,5 +421,12 @@ public class Game {
 
 	public GameMap getMap() {
 		return map;
+	}
+
+	public void damagePlayer(int dmg, boolean noCD) {
+		if(noCD || TimeUtil.getTime()-250 > lastAttackFrame) {
+			if(!noCD) lastAttackFrame = TimeUtil.getTime();
+			playerHealth -= dmg;
+		}
 	}
 }

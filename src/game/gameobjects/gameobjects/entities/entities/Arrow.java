@@ -39,6 +39,7 @@ public class Arrow extends BasicMovingEntity {
 		game.removeGameObject(this);
 		if (gameObject instanceof Player) {
 			((Player) gameObject).addKnockBack(vx, vy);
+			game.damagePlayer(10, false);
 		}
 		if (gameObject instanceof Zombie || gameObject instanceof Skeleton) {
 			game.removeGameObject((GameObject) gameObject);

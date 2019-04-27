@@ -13,8 +13,8 @@ import java.awt.*;
  */
 public class DeadBody extends BasicDrawingEntity {
 
-	public DeadBody(float x, float y, String entity, Color color, boolean direction) {
-		super(new HitBox(x, y, 0.75f, 1f, HitBox.HitBoxType.NOT_BLOCKING), 0.1f);
+	public DeadBody(float x, float y, float drawing, String entity, Color color, boolean direction) {
+		super(new HitBox(x, y, 0.75f, 1f, HitBox.HitBoxType.NOT_BLOCKING), drawing);
 		setColor(color == null ? Color.BLACK : color);
 		Sprite idle = new Sprite(100, entity + /*(direction ? "_r" : "_l") +*/ "_corpse");
 		setSprite(idle);

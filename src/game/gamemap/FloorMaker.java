@@ -31,6 +31,15 @@ public class FloorMaker {
 
 		r = new Random();
 		add(new int[]{x,y});
+		add(new int[]{x+1,y});
+		add(new int[]{x+1,y+1});
+		add(new int[]{x+1,y-1});
+		add(new int[]{x,y+1});
+		add(new int[]{x,y-1});
+		add(new int[]{x-1,y+1});
+		add(new int[]{x-1,y-1});
+		add(new int[]{x-1,y});
+
 		entities.add(new Entity(x, y, r.nextInt(4)));
 		spawns.add(new int[]{x, y});
 	}
