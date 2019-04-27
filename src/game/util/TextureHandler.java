@@ -74,7 +74,6 @@ public class TextureHandler {
 
 					textures_sprite_sheet.put(spriteSheetName + "_" + texture, new Rectangle(x, y, width, height));
 					textures_sprite_sheet_texture.put(spriteSheetName + "_" + texture, spriteSheetName);
-					System.out.println(texture);
 				} catch (Exception e) {
 					ErrorUtil.printError(String.format("Loading spriteSheet: %s in line %d (%s)", spriteSheetName, i + 2, e.toString()));
 				}

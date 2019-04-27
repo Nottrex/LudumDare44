@@ -130,16 +130,6 @@ public class MapLoader {
 
 							HitBox hitBox = new HitBox(x, -y - textureBounds.height / tileSize, textureBounds.width / tileSize, textureBounds.height / tileSize);
 
-							switch (texture) {
-								case "platform":
-								case "platform_left":
-								case "platform_middle":
-								case "platform_right":
-									hitBox.type = HitBox.HitBoxType.HALF_BLOCKING;
-									break;
-
-							}
-
 							hitBoxList.put(hitBox, texture);
 						}
 					}
@@ -170,6 +160,8 @@ public class MapLoader {
 				}
 
 				switch (texture) {
+					case "player_r":
+					case "player_l":
 					case "player_r_idle_0":
 					case "player_r_idle_1":
 					case "player_r_move_0":
@@ -292,14 +284,12 @@ public class MapLoader {
 					case "petroleum_darkRed":
 						map.addGameObject(new PetroleumLamp(x, y, drawingPriority, PetroleumLamp.PetroleumColor.DARK_RED));
 						break;
-					case "zombie_l_move_0":
-					case "zombie_l_move_1":
-					case "zombie_l_move_2":
-					case "zombie_l_move_3":
-					case "zombie_r_move_0":
-					case "zombie_r_move_1":
-					case "zombie_r_move_2":
-					case "zombie_r_move_3":
+					case "zombie_walking_l_0":
+					case "zombie_walking_l_1":
+					case "zombie_walking_l_2":
+					case "zombie_walking_r_0":
+					case "zombie_walking_r_1":
+					case "zombie_walking_r_2":
 					case "zombie_l_fall":
 					case "zombie_l_idle_0":
 					case "zombie_r_fall":
@@ -317,8 +307,6 @@ public class MapLoader {
 					case "ex_barrel_stand_l":
 					case "ex_barrel_stand_e_0":
 					case "ex_barrel_stand_e_1":
-						map.addGameObject(new ExplosiveBarrel(x, y, drawingPriority, true));
-						break;
 					case "ex_barrel_ground_s":
 					case "ex_barrel_ground_l":
 					case "ex_barrel_ground_e_0":
@@ -355,16 +343,6 @@ public class MapLoader {
 						break;
 					default:
 						HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
-
-						switch (texture) {
-							case "platform":
-							case "platform_left":
-							case "platform_middle":
-							case "platform_right":
-								hitBox.type = HitBox.HitBoxType.HALF_BLOCKING;
-								break;
-
-						}
 
 						add(layers, hitBox, texture, drawingPriority);
 				}
@@ -437,10 +415,6 @@ public class MapLoader {
 							if (height == 4)
 								map.addGameObject(new Text(xValue + 0.5f, yValue, 0.7f, String.valueOf(g.getKeyAmount(mapNames[section].split("/")[0] + "_coin_", 1)) + "/" + String.valueOf(g.getKeyAmount(mapNames[section].split("/")[0] + "_coin_")), 0.5f, true, 0.5f, 0f, null));
 						}
-
-						//platforms
-						if (height == 0)
-							add(layers, new HitBox(xValue, yValue, 1f, 1f, HitBox.HitBoxType.HALF_BLOCKING), "platform_middle", 0.52f);
 
 						//borders
 						if (y == 0 && height == sectionHeight - 1)

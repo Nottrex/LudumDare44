@@ -70,7 +70,11 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 						collides.add(collisionObject);
 						directions.add(direction);
 
-						collision = true;
+						if (hitBox2.type == HitBox.HitBoxType.NOT_BLOCKING) {
+							velocities.add((float) Math.sqrt(vx * vx + vy * vy));
+							continue;
+						}
+
 
 						float ax = direction.getXDirection();
 						float ay = direction.getYDirection();
@@ -86,6 +90,8 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 						vy -= ay;
 						targetLocation = hitBox.clone();
 						targetLocation.move(vx, vy);
+
+
 					}
 				}
 			}
@@ -136,7 +142,7 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 
 	@Override
 	public void collide(CollisionObject gameObject, HitBoxDirection direction, float velocity, boolean source) {
-		if (source && this.hitBox.type == HitBox.HitBoxType.BLOCKING && gameObject instanceof BasicMovingEntity) {
+		if (source && this.hitBox.type == HitBox.HitBoxType.BLOCKING && gameObject instanceof BasicMovingEntity && ((BasicMovingEntity) gameObject).getHitBox().type == HitBox.HitBoxType.BLOCKING) {
 			((BasicMovingEntity) gameObject).addKnockBack(direction.getXDirection() * velocity / 20, 0);
 		}
 	}

@@ -5,7 +5,6 @@ import game.Game;
 import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
-import game.gameobjects.gameobjects.particle.ParticleType;
 import game.util.MathUtil;
 
 /**
@@ -36,8 +35,8 @@ public abstract class BasicWalkingEntity extends BasicMovingEntity {
 			my /= speed;
 		}
 
-		vx = mx * Constants.MAX_WALKING_SPEED * maxSpeed;
-		vy = my * Constants.MAX_WALKING_SPEED * maxSpeed;
+		vx = (2*vx + mx * Constants.MAX_WALKING_SPEED * maxSpeed)/3;
+		vy = (2*vy + my * Constants.MAX_WALKING_SPEED * maxSpeed)/3;
 		if (Math.abs(mx) >= 0.2f) lastMX = mx;
 		if (Math.abs(my) > 0.2f) lastMY = my;
 
