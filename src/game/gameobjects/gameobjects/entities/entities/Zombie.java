@@ -16,7 +16,7 @@ import java.util.Optional;
 public class Zombie extends BasicWalkingEntity {
 	private static Sprite walking_r = new Sprite(250, "zombie_walking_r_0", "zombie_walking_r_1", "zombie_walking_r_2");
 	private static Sprite idle_r = new Sprite(250, "zombie_walking_r_0");
-	private static Sprite walking_l = new Sprite(250, "zombie_walking_l_0", "zombie_walking_l_1", "zombie_walking_l_2", "zombie_walking_l_3");
+	private static Sprite walking_l = new Sprite(250, "zombie_walking_l_0", "zombie_walking_l_1", "zombie_walking_l_2");
 	private static Sprite idle_l = new Sprite(250, "zombie_walking_l_0");
 
 	private Tree onDead;

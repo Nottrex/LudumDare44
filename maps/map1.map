@@ -1,0 +1,34 @@
+8
+#1 - textures_block_border_5
+#2 - textures_block_border_6
+#3 - textures_block_border_7
+#4 - textures_block_border_9
+#5 - textures_block_border_10
+#6 - textures_block_border_14
+#7 - textures_block_border_11
+#8 - textures_wall
+#9 - textures_floor_1
+#10 - textures_floor_3
+#11 - textures_floor_2
+#12 - textures_block_border_13
+#13 - textures_block_border_15
+#14 - textures_player_walking_l_1
+#15 - textures_chest_closed
+#16 - textures_lever_off
+#17 - textures_floor_trap_0
+#18 - textures_wall_door_closed
+#19 - textures_floor_door_closed_t
+[layer; 0.5; 9; 15; 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 12, ; 2, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 5, 6, ; 2, 6, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 2, 6, ; 2, 6, 8, 8, 9, 10, 10, 10, 9, 9, 9, 9, 9, 2, 6, ; 2, 6, 8, 0, 9, 10, 9, 10, 9, 11, 9, 9, 9, 2, 6, ; 2, 6, 8, 8, 9, 10, 10, 10, 10, 9, 9, 9, 9, 2, 6, ; 2, 6, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 2, 6, ; 2, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, ; 3, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 13, ; ]
+[put; 0.0; 14; 4.0; 11.0]
+[put; 0.0; 15; 4.0; 6.125; [tag; content; key]]
+[put; 0.0; 16; 4.0; 8.875; [tag; tag; lever1]]
+[put; 0.0; 17; 3.0; 7.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 3.0; 6.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 3.0; 5.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 4.0; 5.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 5.0; 5.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 5.0; 6.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 5.0; 7.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 17; 4.0; 7.0; [tag; condition; (1-#lever1)]]
+[put; 0.0; 18; 4.0; 3.0; [tag; tag; door1]; [tag; target; menuMap]]
+[put; 0.0; 19; 4.0; 4.0; [tag; condition; door1]]

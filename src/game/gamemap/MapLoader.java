@@ -51,16 +51,15 @@ public class MapLoader {
 
 		if (!mapName.startsWith(Constants.SYS_PREFIX)) {
 			File f = new File(mapFolder, mapName + ".map");
-
 			if (!f.exists()) {
-				GameMap returnMap = load(g, Constants.SYS_PREFIX + "world");
+				GameMap returnMap = load(g, Constants.SYS_PREFIX + "menu");
 				Text text = new Text(-0.9f, -0.9f, -100, "Something went wrong. We send you back to the Menu", 0.05f, false, 0f, 0f, null);
 				text.setTimer(300);
 				returnMap.addGameObject(text);
 				return returnMap;
 			}
 
-			map.setMapInfo(mapName.split("/")[0], mapName.split("/")[1]);
+			map.setMapInfo(mapFolder.getAbsolutePath(), mapName);
 			fileScanner = new Scanner(FileHandler.loadFile(f));
 
 		} else {
