@@ -159,36 +159,26 @@ public class MapLoader {
 				}
 
 				switch (texture) {
-					case "player_r":
-					case "player_l":
-					case "player_r_idle_0":
-					case "player_r_idle_1":
-					case "player_r_move_0":
-					case "player_r_move_1":
-					case "player_r_move_2":
-					case "player_r_move_3":
-					case "player_r_fall":
-					case "player_r_sword_0":
-					case "player_r_sword_1":
-					case "player_r_sword_2":
-					case "player_r_sword_3":
-					case "player_r_sword_4":
-					case "player_r_sword_5":
-					case "player_r_sword_6":
-					case "player_l_idle_0":
-					case "player_l_idle_1":
-					case "player_l_move_0":
-					case "player_l_move_1":
-					case "player_l_move_2":
-					case "player_l_move_3":
-					case "player_l_fall":
-					case "player_l_sword_0":
-					case "player_l_sword_1":
-					case "player_l_sword_2":
-					case "player_l_sword_3":
-					case "player_l_sword_4":
-					case "player_l_sword_5":
-					case "player_l_sword_6":
+					case "player_idle_l":
+					case "player_idle_r":
+					case "player_walking_l_1":
+					case "player_walking_l_2":
+					case "player_walking_r_1":
+					case "player_walking_r_2":
+					case "player_attack_l_0":
+					case "player_attack_l_1":
+					case "player_attack_l_2":
+					case "player_attack_l_3":
+					case "player_attack_l_4":
+					case "player_attack_l_5":
+					case "player_attack_l_6":
+					case "player_attack_r_0":
+					case "player_attack_r_1":
+					case "player_attack_r_2":
+					case "player_attack_r_3":
+					case "player_attack_r_4":
+					case "player_attack_r_5":
+					case "player_attack_r_6":
 						map.setSpawnPoint(x, y, drawingPriority);
 						map.getCameraController().setSpawn(x, y);
 						break;
@@ -289,11 +279,12 @@ public class MapLoader {
 					case "zombie_walking_r_0":
 					case "zombie_walking_r_1":
 					case "zombie_walking_r_2":
-					case "zombie_l_fall":
 					case "zombie_l_idle_0":
-					case "zombie_r_fall":
 					case "zombie_r_idle_0":
 						map.addGameObject(new Zombie(x, y, drawingPriority, Parser.loadScript(Parser.COMMAND_BLOCK, tags.getOrDefault("onDead", ""))));
+						break;
+					case "skeleton":
+						map.addGameObject(new Skeleton(x, y, drawingPriority, Parser.loadScript(Parser.COMMAND_BLOCK, tags.getOrDefault("onDead", ""))));
 						break;
 					case "barrel":
 					case "barrel_0":

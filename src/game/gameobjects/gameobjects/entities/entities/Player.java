@@ -19,7 +19,7 @@ import java.util.Set;
  * The player class
  */
 public class Player extends BasicWalkingEntity implements Light {
-	private static final int ATTACK_TICKS = 37;
+	private static final int ATTACK_TICKS = 30;
 	private static final int INTERACT_TICKS = 5;
 
 	private static Sprite attack_r = new Sprite(90, "player_attack_r_0", "player_attack_r_1", "player_attack_r_2", "player_attack_r_3", "player_attack_r_4", "player_attack_r_5", "player_attack_r_6");
@@ -37,7 +37,7 @@ public class Player extends BasicWalkingEntity implements Light {
 	private boolean attackLeft;
 
 	public Player(float x, float y, float drawingPriority) {
-		super(new HitBox(x, y, 0.75f, 0.999f), drawingPriority);
+		super(new HitBox(x, y, 0.75f, 0.875f), drawingPriority);
 
 		abilities = new HashSet<>();
 		attacking = false;
@@ -77,7 +77,7 @@ public class Player extends BasicWalkingEntity implements Light {
 	public void collide(CollisionObject gameObject, HitBoxDirection direction, float velocity, boolean source) {
 		super.collide(gameObject, direction, velocity, source);
 
-		if (gameObject instanceof Zombie) {
+		if (gameObject instanceof Zombie || gameObject instanceof Skeleton) {
 			Zombie zom = (Zombie) gameObject;
 			float dx = (this.hitBox.getCenterX() - zom.getHitBox().getCenterX());
 			float dy = (this.hitBox.getCenterY() - zom.getHitBox().getCenterY());
@@ -105,7 +105,7 @@ public class Player extends BasicWalkingEntity implements Light {
 		if (!sprite.equals(newSprite)) setSprite(newSprite);
 
 		if (attack > 0) {
-			if (attack > 20) {
+			if (attack > 5) {
 				HitBox attackHitBox = new HitBox(hitBox.getCenterX() + (attackLeft ? -0.875f : 0), hitBox.y, 0.875f, 0.875f);
 
 				for (CollisionObject collisionObject : game.getCollisionObjects()) {

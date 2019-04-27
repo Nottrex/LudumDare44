@@ -54,8 +54,8 @@ public class HitBox {
 		if ((x + width) <= box2.x) return HitBoxDirection.RIGHT;
 		if ((box2.x + box2.width) <= x) return HitBoxDirection.LEFT;
 		if ((y + height) <= box2.y) return HitBoxDirection.UP;
-		if ((box2.y + box2.height) <= y) return HitBoxDirection.DOWN;
-		return HitBoxDirection.COLLIDE;
+		//if ((box2.y + box2.height) <= y) return HitBoxDirection.DOWN;
+		return HitBoxDirection.DOWN;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class HitBox {
 	public float collisionDepth(HitBox box2, float ax, float ay) {
 		if (!collides(box2)) return 0;
 
-		float distance = Float.MAX_VALUE;
+		float distance = 999999;
 
 		if (ax != 0) {
 			if (ax < 0) {

@@ -71,7 +71,7 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 						directions.add(direction);
 
 						if (hitBox2.type == HitBox.HitBoxType.NOT_BLOCKING) {
-							velocities.add((float) Math.sqrt(vx * vx + vy * vy));
+							velocities.add(0f);
 							continue;
 						}
 

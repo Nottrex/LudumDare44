@@ -1,7 +1,9 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Game;
 import game.data.hitbox.HitBox;
 import game.data.Sprite;
+import game.gameobjects.gameobjects.entities.BasicDrawingEntity;
 import game.gameobjects.gameobjects.entities.BasicWalkingEntity;
 
 import java.awt.*;
@@ -9,13 +11,16 @@ import java.awt.*;
 /**
  * A DeadBody, that remains when a player or zombie dies
  */
-public class DeadBody extends BasicWalkingEntity {
+public class DeadBody extends BasicDrawingEntity {
 
 	public DeadBody(float x, float y, String entity, Color color, boolean direction) {
-		super(new HitBox(x, y, 0.75f, 1f, HitBox.HitBoxType.NOT_BLOCKING), 0f);
+		super(new HitBox(x, y, 0.75f, 1f, HitBox.HitBoxType.NOT_BLOCKING), 0.1f);
 		setColor(color == null ? Color.BLACK : color);
 		Sprite idle = new Sprite(100, entity + /*(direction ? "_r" : "_l") +*/ "_corpse");
 		setSprite(idle);
+	}
+	public HitBox getHitBox() {
+		return hitBox;
 	}
 
 	@Override
@@ -24,7 +29,7 @@ public class DeadBody extends BasicWalkingEntity {
 	}
 
 	@Override
-	public float getCollisionPriority() {
-		return -10;
+	public void update(Game game) {
+
 	}
 }
