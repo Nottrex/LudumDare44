@@ -58,8 +58,7 @@ public class Player extends BasicWalkingEntity implements Light {
 	@Override
 	public void init(Game game) {
 		super.init(game);
-
-		game.getParticleSystem().createParticle(ParticleType.EXPLOSION, hitBox.getCenterX(), hitBox.getCenterY(), 0, 0);
+		if(hitBox != null) game.getParticleSystem().createParticle(ParticleType.EXPLOSION, hitBox.getCenterX(), hitBox.getCenterY(), 0, 0);
 	}
 
 	@Override

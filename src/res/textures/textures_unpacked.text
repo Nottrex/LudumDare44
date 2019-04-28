@@ -1,4 +1,4 @@
-121
+138
 explosion_0 0 160 16 16
 explosion_1 16 160 16 16
 explosion_2 32 160 16 16
@@ -103,12 +103,17 @@ player_attack_ur_4 208 135 16 10
 player_attack_ur_5 208 152 16 8
 zombie_walking_r_0 88 8 8 8
 zombie_walking_r_1 96 8 8 8
-zombie_walking_r_2 104 8 8 8
+zombie_walking_r_2 103 0 10 8
 zombie_walking_l_0 88 16 8 8
 zombie_walking_l_1 96 16 8 8
-zombie_walking_l_2 104 16 8 8
+zombie_walking_l_2 95 0 10 8
 zombie_corpse 144 8 8 8
-skeleton 120 8 8 8
+skeleton_walking_l_0 120 16 8 8
+skeleton_walking_l_1 112 16 8 8
+skeleton_walking_l_2 128 16 8 8
+skeleton_walking_r_0 120 8 8 8
+skeleton_walking_r_1 112 8 8 8
+skeleton_walking_r_2 120 8 8 8
 skeleton_corpse 136 8 8 8
 bone_0 105 25 9 9
 bone_1 115 25 9 9
@@ -120,3 +125,15 @@ bone_6 105 55 9 9
 bone_7 115 55 9 9
 lever_off 56 40 8 8
 lever_on 56 48 8 8
+boss_attack_0 0 368 32 32
+boss_attack_1 32 368 32 32
+boss_attack_2 64 368 32 32
+boss_attack_3 96 368 32 32
+boss_attack_4 128 368 32 32
+boss_attack_5 160 368 32 32
+boss_attack_6 192 368 32 32
+boss_attack_7 224 368 32 32
+boss_attack_8 256 368 32 32
+heart_0 72 47 9 9
+heart_1 87 46 13 13
+heart_2 69 56 15 15
