@@ -254,7 +254,10 @@ public class Game {
 	 **/
 	public void restartMap() {
 		if(newMap == null) {
-			if (map.getName() != null && (map.getName().equalsIgnoreCase("map1")) || map.getName().equalsIgnoreCase("boss_room")) setGameMap(map.getName(), true);
+			if (map.getName() != null && (map.getName().equalsIgnoreCase("map1")) || map.getName().equalsIgnoreCase("boss_room")) {
+				etage = Math.max(0, etage-1);
+				setGameMap(map.getName(), true);
+			}
 			else {
 				etage--;
 				setGameMap("dungeon", true);

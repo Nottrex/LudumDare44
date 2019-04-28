@@ -19,7 +19,7 @@ import game.window.light.Light;
  */
 public class Player extends BasicWalkingEntity implements Light {
 	private static final float ATTACK_HITBOX_SIZE = 1f;
-	private static final int ATTACK_TICKS = 30;
+	private static final int ATTACK_TICKS = 40;
 	private static final int INTERACT_TICKS = 5;
 
 	private static Sprite attack_r = new Sprite(90, "player_attack_r_0", "player_attack_r_1", "player_attack_r_2", "player_attack_r_3", "player_attack_r_4", "player_attack_r_5", "player_attack_r_6");

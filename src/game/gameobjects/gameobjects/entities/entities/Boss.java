@@ -61,7 +61,7 @@ public class Boss extends BasicWalkingEntity {
 		}
 		text.setText(life + "");
 
-		if (time > currentAction.getTime()) {
+		if (time >= currentAction.getTime()) {
 
 			BossAction newAction;
 			do {
@@ -108,7 +108,7 @@ public class Boss extends BasicWalkingEntity {
 	}
 
 	private enum BossAction {
-		IDLE(90), STOMP(200), THROW_BARREL(192), FOLLOW_PLAYER(240), GRAB_PLAYER(240);
+		IDLE(90), STOMP(200), THROW_BARREL(233), FOLLOW_PLAYER(240), GRAB_PLAYER(240);
 
 		private int time;
 		BossAction(int time) {
@@ -125,7 +125,10 @@ public class Boss extends BasicWalkingEntity {
 					b.setSprite(attack_l);
 					b.setMx(0);
 					b.setMy(0);
+				}
 
+				if(currentTick < 24) return;
+				if (currentTick == 24) {
 					b.seismicX = b.getHitBox().getCenterX();
 					b.seismicY = b.getHitBox().getCenterY();
 				}
@@ -185,14 +188,11 @@ public class Boss extends BasicWalkingEntity {
 					b.setMy(0);
 				}
 			} else if (this == THROW_BARREL) {
-				if (currentTick %48 == 0) {
-					b.setSprite(throw_barrel_l);
-				}
-				if (currentTick %48 == 24) {
-					b.setSprite(recover_throw_l);
-				}
+				if(currentTick%78 == 0) b.setSprite(grab_l);
+				if(currentTick%78 == 37) b.setSprite(throw_barrel_l);
+				if(currentTick%78 == 55) b.setSprite(recover_throw_l);
 
-				if (currentTick == 5 || currentTick == 53 || currentTick == 101) {
+				if ((currentTick)%78==61) {
 					Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
 					float vx = 1;
 					float vy = 0;
