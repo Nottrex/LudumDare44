@@ -62,6 +62,7 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 		do {
 			collision = false;
 			for (CollisionObject collisionObject : game.getCollisionObjects()) {
+
 				if (collisionObject == this) continue;
 				for (HitBox hitBox2 : collisionObject.getCollisionBoxes()) {
 					if (hitBox2.collides(targetLocation)) {
@@ -70,7 +71,7 @@ public abstract class BasicMovingEntity extends BasicDrawingEntity implements Co
 						collides.add(collisionObject);
 						directions.add(direction);
 
-						if (hitBox2.type == HitBox.HitBoxType.NOT_BLOCKING) {
+						if (hitBox2.type == HitBox.HitBoxType.NOT_BLOCKING || hitBox.type == HitBox.HitBoxType.NOT_BLOCKING && collisionObject instanceof BasicMovingEntity) {
 							velocities.add(0f);
 							continue;
 						}

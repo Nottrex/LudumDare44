@@ -21,13 +21,7 @@ public class Constants {
 	public static final int PLAYER_MOB_HEAL 	= 10;
 	public static final int PLAYER_TRAP_DAMAGE 	= 20;
 
-	public static final float JUMP_ACCELERATION = 0.355f;
 	public static final float MAX_WALKING_SPEED = 0.175f;
-	public static final float DOWN_ACCELERATION = 0.04f;
-	public static final float MAX_DOWN_SPEED = 0.5f;
-	public static final float GRAVITY_ACCELERATION = 0.04f;
-	public static final float GRAVITY_ACCELERATION_JUMPING = GRAVITY_ACCELERATION / 2;
-	public static final float MAX_GRAVITY_SPEED = 0.3f;
 
 	public static int PIXEL_PER_TILE = 8;
 	public static final float FONT_ASPECT = 1.4f; 				//font height : font width
@@ -59,6 +53,7 @@ public class Constants {
 		DEFAULT_CONTROLS.put("INTERACT0", Keyboard.KEY_E);
 		DEFAULT_CONTROLS.put("ATTACK0", Keyboard.KEY_SPACE);
 		DEFAULT_CONTROLS.put("RESET0", Keyboard.KEY_R);
+		DEFAULT_CONTROLS.put("THROW0", Keyboard.KEY_Q);
 
 		DEFAULT_CONTROLS.put("UP1", Keyboard.KEY_UP);
 		DEFAULT_CONTROLS.put("DOWN1", Keyboard.KEY_DOWN);
@@ -67,6 +62,7 @@ public class Constants {
 		DEFAULT_CONTROLS.put("INTERACT1", Keyboard.KEY_RIGHT_SHIFT);
 		DEFAULT_CONTROLS.put("ATTACK1", Keyboard.KEY_RIGHT_CONTROL);
 		DEFAULT_CONTROLS.put("RESET1", Keyboard.KEY_R);
+		DEFAULT_CONTROLS.put("THROW1", Keyboard.KEY_ENTER);
 
 		for (int i = 0; i < 16; i++) {
 			DEFAULT_CONTROLS.put("UP" + (i+2), Keyboard.GAMEPAD_1_LEFT_AXIS_UP + 30*i);
@@ -76,6 +72,7 @@ public class Constants {
 			DEFAULT_CONTROLS.put("INTERACT" + (i+2), Keyboard.GAMEPAD_1_BUTTON_A + 30*i);
 			DEFAULT_CONTROLS.put("ATTACK" + (i+2), Keyboard.GAMEPAD_1_BUTTON_X + 30*i);
 			DEFAULT_CONTROLS.put("RESET" + (i+2), Keyboard.GAMEPAD_1_BUTTON_BACK + 30*i);
+			DEFAULT_CONTROLS.put("THROW" + (i+2), Keyboard.GAMEPAD_1_BUTTON_RIGHT_BUMPER + 30*i);
 		}
 	}
 }

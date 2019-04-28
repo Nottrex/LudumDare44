@@ -36,9 +36,9 @@ public class Player extends BasicWalkingEntity implements Light {
 	private static Sprite attack_ru = new Sprite(90, "player_attack_r_0", "player_attack_ur_1", "player_attack_ur_2", "player_attack_ur_3", "player_attack_ur_4", "player_attack_ur_5", "player_attack_r_6");
 	private static Sprite attack_rd = new Sprite(90, "player_attack_r_0", "player_attack_dr_1", "player_attack_dr_2", "player_attack_dr_3", "player_attack_dr_4", "player_attack_dr_5", "player_attack_dr_6", "player_attack_dr_7", "player_attack_r_6");
 
-	private boolean attackingLastTick, interactingLastTick;
-	private boolean attacking, interacting;
-	private int attack, interact;
+	private boolean attackingLastTick, interactingLastTick, throwingLastTick;
+	private boolean attacking, interacting, throwing;
+	private int attack, interact, throw_;
 	private Direction attackDirection;
 	private Direction moveDirection;
 
@@ -50,6 +50,8 @@ public class Player extends BasicWalkingEntity implements Light {
 
 		attacking = false;
 		interacting = false;
+		throwing = false;
+		throwingLastTick = false;
 		attackingLastTick = false;
 		interactingLastTick = false;
 
@@ -57,6 +59,7 @@ public class Player extends BasicWalkingEntity implements Light {
 		moveDirection = Direction.RIGHT;
 		attack = 0;
 		interact = 0;
+		throw_ = 0;
 
 		setSprite(idle_r);
 	}
@@ -158,6 +161,26 @@ public class Player extends BasicWalkingEntity implements Light {
 			attack++;
 		}
 
+		if (throw_ > 0) {
+			throw_++;
+			if (throw_ > 10) throw_ = 0;
+		} else if (throwing && !throwingLastTick && attack == 0) {
+			float moveX = vx;
+			float moveY = vy;
+			if (moveX == 0 && moveY == 0) {
+				float[] dir = moveDirection.getDirection();
+				moveX = dir[0];
+				moveY = dir[1];
+			}
+			//if (moveY != 0) moveX = 0;
+
+			double length = Math.sqrt(moveX * moveX + moveY * moveY);
+			moveX /= length * 7;
+			moveY /= length * 7;
+			game.addGameObject(new Arrow(hitBox.getCenterX(), hitBox.getCenterY(), 0.1f, new Sprite(1, Math.abs(moveX) > Math.abs(moveY) ? moveX > 0 ? "needle_r" : "needle_l" : moveY > 0 ? "needle_t" : "needle_d"), moveX, moveY, this));
+			throw_++;
+		}
+
 		if (interact > 0) {
 			for (CollisionObject collisionObject : game.getCollisionObjects()) {
 				if (collisionObject.equals(this)) continue;
@@ -181,6 +204,7 @@ public class Player extends BasicWalkingEntity implements Light {
 
 		interactingLastTick = interacting;
 		attackingLastTick = attacking;
+		throwingLastTick = throwing;
 	}
 
 	@Override
@@ -228,6 +252,10 @@ public class Player extends BasicWalkingEntity implements Light {
 		return -10;
 	}
 
+	public void setThrowing(boolean throwing) {
+		this.throwing = throwing;
+	}
+
 	public void setAttacking(boolean attacking) {
 		this.attacking = attacking;
 	}
@@ -270,15 +298,21 @@ public class Player extends BasicWalkingEntity implements Light {
 	}
 
 	private enum Direction {
-		UP_RIGHT(attack_ru), RIGHT(attack_r), DOWN_RIGHT(attack_rd), DOWN_LEFT(attack_ld), LEFT(attack_l), UP_LEFT(attack_lu), VOID(null);
+		UP_RIGHT(attack_ru, 30), RIGHT(attack_r, 90), DOWN_RIGHT(attack_rd, 150), DOWN_LEFT(attack_ld, 210), LEFT(attack_l, 270), UP_LEFT(attack_lu, 330), VOID(null, 0);
 
 		private Sprite sprite;
-		Direction(Sprite sprite) {
+		private float deg;
+		Direction(Sprite sprite, float deg) {
 			this.sprite = sprite;
+			this.deg = deg;
 		}
 
 		public Sprite getSprite() {
 			return sprite;
+		}
+
+		public float[] getDirection() {
+			return new float[] {(float) Math.cos(Math.toRadians(-(deg + 90))), (float) Math.sin(Math.toRadians(-(deg + 90)))};
 		}
 
 		public HitBox getHitBox(Player player) {
@@ -319,7 +353,6 @@ public class Player extends BasicWalkingEntity implements Light {
 			if (mx == 0 && my == 0) return VOID;
 
 			int angle = (int) Math.floor(((Math.toDegrees(Math.atan2(mx, my)) + 180) % 360) / 60);
-			System.out.println(angle);
 			return dir[angle];
 		}
 	}

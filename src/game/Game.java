@@ -1,6 +1,8 @@
 package game;
 
 import game.audio.AudioPlayer;
+import game.data.Sprite;
+import game.data.hitbox.HitBox;
 import game.gamemap.GameMap;
 import game.gamemap.MapLoader;
 import game.gameobjects.CollisionObject;
@@ -9,6 +11,7 @@ import game.gameobjects.gameobjects.Fade;
 import game.gameobjects.gameobjects.Text;
 import game.gameobjects.gameobjects.entities.entities.DeadBodyHandler;
 import game.gameobjects.gameobjects.entities.entities.Player;
+import game.gameobjects.gameobjects.entities.entities.ScreenEntity;
 import game.gameobjects.gameobjects.particle.ParticleSystem;
 import game.util.SaveHandler;
 import game.util.TimeUtil;
@@ -78,11 +81,12 @@ public class Game {
 
 		keyCounter = new Text(1, 0.98f, -1000, "<#keys>", 0.1f, false, 1f, 1f, null);
 		potionCounter = new Text(1, 0.80f, -1000, "<#potion>", 0.1f, false, 1f, 1f, null);
-		healthDisplay = new Text(-0.8f, 0.98f, -1000, playerHealth+"", 0.1f, false, 1f, 1f, null);
+		healthDisplay = new Text(-0.98f, 0.98f, -1000, playerHealth+"", 0.1f, false, 0f, 1f, null);
 		etageDisplay = new Text(-0.725f, -0.8f, -1000, "UG " + etage, 0.1f, false, 1f, 1f, null);
 		addGameObject(keyCounter);
 		addGameObject(potionCounter);
 		addGameObject(healthDisplay);
+		addGameObject(new ScreenEntity(new HitBox(-0.75f, 0.98f, 0.1f, 0.1f), -1000, new Sprite(100, "heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0", "heart_0","heart_0","heart_0","heart_0","heart_1", "heart_2"), 0, 1));
 		addGameObject(etageDisplay);
 
 		//Start the game in the "menu" map
@@ -233,6 +237,7 @@ public class Game {
 			player.setMy(keyboard.getPressed(Options.controls.get("UP" + input)) -  keyboard.getPressed(Options.controls.get("DOWN"+input)));
 			player.setInteracting(keyboard.isPressed(Options.controls.get("INTERACT" + input)));
 			player.setAttacking(keyboard.isPressed(Options.controls.get("ATTACK" + input)));
+			player.setThrowing(keyboard.isPressed(Options.controls.get("THROW" + input)));
 			if (keyboard.isPressed(Options.controls.get("RESET" + input))) restartMap();
 		}
 	}

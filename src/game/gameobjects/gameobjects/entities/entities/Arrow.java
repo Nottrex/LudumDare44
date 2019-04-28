@@ -12,15 +12,13 @@ import game.gameobjects.gameobjects.entities.BasicMovingEntity;
 public class Arrow extends BasicMovingEntity {
 
 	private GameObject owner;
-	private float vx2;
-	private float vy2;
 
 	public Arrow(float x, float y, float drawingPriority, Sprite sprite, float vx, float vy, GameObject owner) {
 		super(new HitBox(x-0.125f, y-0.125f, 0.25f, 0.25f), drawingPriority);
 		this.setSprite(sprite);
 		this.owner = owner;
-		this.vx2 = vx;
-		this.vy2 = vy;
+		this.vx = vx;
+		this.vy = vy;
 		this.hitBox.type = HitBox.HitBoxType.NOT_BLOCKING;
 	}
 
@@ -28,8 +26,12 @@ public class Arrow extends BasicMovingEntity {
 	public void update(Game game) {
 		super.update(game);
 
-		this.vx = vx2;
-		this.vy = vy2;
+	}
+
+	@Override
+	public void addKnockBack(float kx, float ky) {
+		vx += kx;
+		vy += ky;
 	}
 
 	@Override
