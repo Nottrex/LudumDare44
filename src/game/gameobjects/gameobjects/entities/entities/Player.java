@@ -5,6 +5,7 @@ import game.data.Sprite;
 import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
+import game.gameobjects.gameobjects.entities.BasicDrawingEntity;
 import game.gameobjects.gameobjects.entities.BasicMovingEntity;
 import game.gameobjects.gameobjects.entities.BasicWalkingEntity;
 import game.gameobjects.gameobjects.particle.ParticleType;
@@ -16,7 +17,7 @@ import game.window.light.Light;
  * The player class
  */
 public class Player extends BasicWalkingEntity implements Light {
-
+	private static final float ATTACK_HITBOX_SIZE = 1f;
 	private static final int ATTACK_TICKS = 30;
 	private static final int INTERACT_TICKS = 5;
 
@@ -37,11 +38,13 @@ public class Player extends BasicWalkingEntity implements Light {
 	private boolean attackingLastTick, interactingLastTick;
 	private boolean attacking, interacting;
 	private int attack, interact;
-	private boolean attackLeft, attackDown, attackUp;
+	private Direction attackDirection;
+	private Direction moveDirection;
 
 	private static int keys = 0, potions = 0;
 
 	public Player(float x, float y, float drawingPriority) {
+
 		super(new HitBox(x, y, 0.75f, 0.875f), drawingPriority);
 
 		attacking = false;
@@ -49,6 +52,8 @@ public class Player extends BasicWalkingEntity implements Light {
 		attackingLastTick = false;
 		interactingLastTick = false;
 
+		attackDirection = Direction.RIGHT;
+		moveDirection = Direction.RIGHT;
 		attack = 0;
 		interact = 0;
 
@@ -72,8 +77,6 @@ public class Player extends BasicWalkingEntity implements Light {
 	public void remove(Game game, boolean mapChange) {
 		super.remove(game, mapChange);
 		game.setGameMap("map1", true);
-		//if (game.getDeadBodyHandler() != null)
-			//game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, "player", color, lastMX > 0)));
 	}
 
 	@Override
@@ -99,19 +102,28 @@ public class Player extends BasicWalkingEntity implements Light {
 		Sprite newSprite = null;
 		if (attack > 0) {
 			setMaxSpeed(0.15f);
-			newSprite = (attackLeft ? attackUp? attack_lu: attackDown? attack_ld: attack_l: attackUp? attack_ru: attackDown? attack_rd: attack_r);
+			newSprite = (attackDirection.getSprite());
 		}
 		else {
-			if (mx == 0) newSprite = (lastMX < 0 ? walking_l : walking_r);
-			if (mx != 0) newSprite = (mx < 0 ? walking_l : walking_r);
+			if (mx == 0) {
+				if (my == 0) newSprite = (lastMX < 0 ? idle_l : idle_r);
+				if (my != 0) {
+					newSprite = (lastMX < 0 ? walking_l : walking_r);
+				}
+			}
+			if (mx != 0) {
+				newSprite = (mx < 0 ? walking_l : walking_r);
+			}
 			setMaxSpeed(1);
 		}
+		Direction newDirection = Direction.getDirection(mx, my);
+		if (newDirection != Direction.VOID) moveDirection = newDirection;
 
 		if (!sprite.equals(newSprite)) setSprite(newSprite);
 
 		if (attack > 0) {
-			if (attack > 5) {
-				HitBox attackHitBox = new HitBox(hitBox.getCenterX() + (attackLeft ? -0.875f : 0), hitBox.y + (attackUp? 0.875f: attackDown? -0.875f: 0), 0.875f, 0.875f);//TODO:
+			if (attack > 4) {
+				HitBox attackHitBox = attackDirection.getHitBox(this);
 
 				for (CollisionObject collisionObject : game.getCollisionObjects()) {
 					if (collisionObject.equals(this)) continue;
@@ -141,9 +153,7 @@ public class Player extends BasicWalkingEntity implements Light {
 			}
 
 		} else if (attacking && !attackingLastTick && interact == 0) {
-			attackLeft = lastMX < 0;
-			attackDown = my < 0;
-			attackUp = my > 0;
+			attackDirection = moveDirection;
 			attack++;
 		}
 
@@ -256,5 +266,60 @@ public class Player extends BasicWalkingEntity implements Light {
 		if(item.equalsIgnoreCase("key")) return keys;
 		else if(item.equalsIgnoreCase("potion")) return potions;
 		return -1;
+	}
+
+	private enum Direction {
+		UP_RIGHT(attack_ru), RIGHT(attack_r), DOWN_RIGHT(attack_rd), DOWN_LEFT(attack_ld), LEFT(attack_l), UP_LEFT(attack_lu), VOID(null);
+
+		private Sprite sprite;
+		Direction(Sprite sprite) {
+			this.sprite = sprite;
+		}
+
+		public Sprite getSprite() {
+			return sprite;
+		}
+
+		public HitBox getHitBox(Player player) {
+			HitBox hitBoxTarget = new HitBox(0, 0, ATTACK_HITBOX_SIZE, ATTACK_HITBOX_SIZE);
+
+			switch (this){
+				case DOWN_RIGHT:
+					hitBoxTarget.x = player.getHitBox().getCenterX();
+					hitBoxTarget.y = player.getHitBox().y - ATTACK_HITBOX_SIZE;
+					break;
+				case DOWN_LEFT:
+					hitBoxTarget.x = player.getHitBox().getCenterX() - ATTACK_HITBOX_SIZE;
+					hitBoxTarget.y = player.getHitBox().y - ATTACK_HITBOX_SIZE;
+					break;
+				case RIGHT:
+					hitBoxTarget.x = player.getHitBox().x + player.getHitBox().width;
+					hitBoxTarget.y = player.getHitBox().getCenterY() - ATTACK_HITBOX_SIZE / 2f;
+					break;
+				case LEFT:
+					hitBoxTarget.x = player.getHitBox().x - ATTACK_HITBOX_SIZE;
+					hitBoxTarget.y = player.getHitBox().getCenterY() - ATTACK_HITBOX_SIZE / 2f;
+					break;
+				case UP_LEFT:
+					hitBoxTarget.x = player.getHitBox().getCenterX() - ATTACK_HITBOX_SIZE;
+					hitBoxTarget.y = player.getHitBox().y + player.getHitBox().height;
+					break;
+				case UP_RIGHT:
+					hitBoxTarget.x = player.getHitBox().getCenterX();
+					hitBoxTarget.y = player.getHitBox().y + player.getHitBox().height;
+					break;
+			}
+
+			return hitBoxTarget;
+		}
+
+		static Direction[] dir = {DOWN_LEFT, LEFT, UP_LEFT, UP_RIGHT, RIGHT, DOWN_RIGHT};
+		static Direction getDirection(float mx, float my) {
+			if (mx == 0 && my == 0) return VOID;
+
+			int angle = (int) Math.floor(((Math.toDegrees(Math.atan2(mx, my)) + 180) % 360) / 60);
+			System.out.println(angle);
+			return dir[angle];
+		}
 	}
 }
