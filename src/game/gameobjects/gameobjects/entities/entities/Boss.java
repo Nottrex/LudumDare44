@@ -67,9 +67,12 @@ public class Boss extends BasicWalkingEntity {
 		if (time >= currentAction.getTime()) {
 
 			BossAction newAction;
-			do {
-				newAction = BossAction.values()[(int) (Math.random() * BossAction.values().length)];
-			} while(newAction == currentAction);
+			if(currentAction == BossAction.GRAB_PLAYER) newAction = BossAction.THROW_PLAYER;
+			else {
+				do {
+					newAction = BossAction.values()[(int) (Math.random() * BossAction.values().length)];
+				} while(newAction == currentAction);
+			}
 			currentAction = newAction;
 			System.out.println("Current Action: " + currentAction.toString());
 			time = 0;
@@ -85,6 +88,9 @@ public class Boss extends BasicWalkingEntity {
 		if (TimeUtil.getTime()-1000 > lastHitTaken && gameObject instanceof Player && interactionType == InteractionType.ATTACK) {
 			lastHitTaken = TimeUtil.getTime();
 			life--;
+
+			time = 0;
+			currentAction = BossAction.GRAB_PLAYER;
 		}
 	}
 
@@ -218,13 +224,17 @@ public class Boss extends BasicWalkingEntity {
 			} else if (this == FOLLOW_PLAYER || this == GRAB_PLAYER) {
 				if (currentTick == 0) {
 					b.setSprite(b.lastMX < 0? walking_l: walking_r);
-					b.setMaxSpeed(this == FOLLOW_PLAYER? 0.25f: 0.35f);
+					b.setMaxSpeed(this == FOLLOW_PLAYER? 0.25f: 0.45f);
 				}
+
 				Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
 				if (nearestPlayer.isPresent()) {
 					b.setMx(nearestPlayer.get().getHitBox().x - b.getHitBox().x);
 					if(Math.signum(b.lastMX) != Math.signum(b.mx)) b.setSprite(b.mx < 0? walking_l: walking_r);
 					b.setMy(nearestPlayer.get().getHitBox().y - b.getHitBox().y);
+					if(MathUtil.distance(nearestPlayer.get().getHitBox().getCenterX(), nearestPlayer.get().getHitBox().getCenterY(), b.hitBox.getCenterX(), b.hitBox.getCenterY()) <= 3.0f) {
+						b.time = 300;
+					}
 				}
 			} else if (this == THROW_PLAYER) {
 				Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
@@ -236,7 +246,7 @@ public class Boss extends BasicWalkingEntity {
 				}
 				if(currentTick%78 == 0) b.setSprite(playerPresent? (nearestPlayer.get().getHitBox().getCenterX() < b.getHitBox().x? grab_l: grab_r): b.lastMX < 0? grab_l: grab_r);
 				if(currentTick%78 == 37) {
-					if(playerPresent && MathUtil.distance(nearestPlayer.get().getHitBox().getCenterX(), nearestPlayer.get().getHitBox().getCenterY(), b.hitBox.getCenterX(), b.hitBox.getCenterY()) <= 4.5){
+					if(playerPresent && MathUtil.distance(nearestPlayer.get().getHitBox().getCenterX(), nearestPlayer.get().getHitBox().getCenterY(), b.hitBox.getCenterX(), b.hitBox.getCenterY()) <= 3.5){
 						b.setSprite(Math.random() < 0.5f? throw_player_l: throw_player_r);
 						nearestPlayer.get().throwPlayer(1);
 					} else b.setSprite(playerPresent? (nearestPlayer.get().getHitBox().getCenterX() < b.getHitBox().x? recover_throw_l: recover_throw_r): b.lastMX < 0? recover_throw_l: recover_throw_r);
@@ -255,6 +265,7 @@ public class Boss extends BasicWalkingEntity {
 						nearestPlayer.get().addKnockBack(-0.5f, 0);
 					}
 					else {
+						nearestPlayer.get().getHitBox().y = b.getHitBox().getCenterY();
 						nearestPlayer.get().addKnockBack(0.5f, 0);
 					}
 				}
