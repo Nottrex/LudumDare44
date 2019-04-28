@@ -1,4 +1,12 @@
-113
+121
+explosion_0 0 160 16 16
+explosion_1 16 160 16 16
+explosion_2 32 160 16 16
+explosion_3 0 176 16 16
+explosion_4 16 176 16 16
+explosion_5 32 176 16 16
+explosion_6 0 192 16 16
+explosion_7 16 192 16 16
 chest_closed 25 0 7 7
 chest_open 33 0 7 7
 wall 24 24 8 8
@@ -47,8 +55,8 @@ needle_t 56 32 3 8
 needle_l 48 37 8 3
 needle_r 48 32 8 3
 needle_d 61 32 3 8
-potion 72 32 8 8
-key 72 40 8 8
+potion 70 30 10 10
+key 87 30 9 10
 player_idle_l 56 8 8 8
 player_idle_r 64 8 8 8
 player_walking_l_1 48 8 8 8

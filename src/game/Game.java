@@ -66,7 +66,7 @@ public class Game {
 		players = new ArrayList<>();
 		inputs = new ArrayList<>();
 		playerColors = new ArrayList<>();
-		addPlayerColors("#193D3f", "#327345", "#63c64d", "#ffe762", "#fb922b", "#e53b44", "#9e2835", "#2ce8f4", "#0484d1", "#124e89", "#68386c", "#b55088", "#f6757a", "#181425", "#181425", "#e8b796", "#3a4466", "#c0cbdc");
+		addPlayerColors("#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f", "#2e141f");
 		Collections.shuffle(playerColors);
 		gameObjects = new LinkedList<>();
 		collisionObjects = new LinkedList<>();

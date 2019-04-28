@@ -3,7 +3,7 @@ package game.gameobjects.gameobjects.particle;
 import game.data.Sprite;
 
 public enum ParticleType {
-	EXPLOSION(new Sprite(55, "explosion_1", "explosion_2", "explosion_3", "explosion_4", "explosion_5", "explosion_6", "explosion_7", "explosion_8", "explosion_9"), 30, 2f, 2f, false),
+	EXPLOSION(new Sprite(100, "explosion_1", "explosion_2", "explosion_3", "explosion_4", "explosion_5", "explosion_6", "explosion_7"), 30, 2f, 2f, false),
 	CLOUD(new Sprite(100, "cloud_0", "cloud_1", "cloud_2", "cloud_3", "cloud_4"), 29, 1.9375f, 1.5f, false),
 	RED(new Sprite(100, "particle_red"), 15, 0.125f, 0.125f, false),
 	LIGHT_GREEN(new Sprite(100, "particle_light_green"), 15, 0.125f, 0.125f, false),
@@ -21,7 +21,9 @@ public enum ParticleType {
 	LIGHT_LIGHT_BROWN(new Sprite(100, "particle_light_light_brown"), 15, 0.125f, 0.125f, false),
 	LIGHT_BROWN(new Sprite(100, "particle_light_brown"), 15, 0.125f, 0.125f, false),
 	BROWN(new Sprite(100, "particle_brown"), 15, 0.125f, 0.125f, false),
-	DARK_BROWN(new Sprite(100, "particle_dark_brown"), 15, 0.125f, 0.125f, false);
+	DARK_BROWN(new Sprite(100, "particle_dark_brown"), 15, 0.125f, 0.125f, false),
+	POTION(new Sprite(100, "potion"), 30, 1f, 1f, false),
+	KEY(new Sprite(100, "key"), 30, 1f, 1f, false);
 
 	private int lifeTime;
 	private boolean gravity;

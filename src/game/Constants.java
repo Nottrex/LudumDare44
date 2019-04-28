@@ -65,7 +65,7 @@ public class Constants {
 		DEFAULT_CONTROLS.put("RESET1", Keyboard.KEY_R);
 
 		for (int i = 0; i < 16; i++) {
-			DEFAULT_CONTROLS.put("UP" + (i+2), Keyboard.GAMEPAD_1_BUTTON_A + 30*i);
+			DEFAULT_CONTROLS.put("UP" + (i+2), Keyboard.GAMEPAD_1_LEFT_AXIS_UP + 30*i);
 			DEFAULT_CONTROLS.put("DOWN" + (i+2), Keyboard.GAMEPAD_1_LEFT_AXIS_DOWN + 30*i);
 			DEFAULT_CONTROLS.put("RIGHT" + (i+2), Keyboard.GAMEPAD_1_LEFT_AXIS_RIGHT + 30*i);
 			DEFAULT_CONTROLS.put("LEFT" + (i+2), Keyboard.GAMEPAD_1_LEFT_AXIS_LEFT + 30*i);

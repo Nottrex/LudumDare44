@@ -227,9 +227,14 @@ public class Player extends BasicWalkingEntity implements Light {
 	}
 
 	public void addItem(String item) {
-		if(item.equalsIgnoreCase("key")) keys++;
-		else if(item.equalsIgnoreCase("potion")) potions++;
-		System.out.println("Added item: " + item + "[" + getItem(item) + "]");
+		if(item.equalsIgnoreCase("key")) {
+			game.getParticleSystem().createParticle(ParticleType.KEY, hitBox.getCenterX(), hitBox.getCenterY(), 0, 0.05f);
+			keys++;
+		}
+		else if(item.equalsIgnoreCase("potion")) {
+			game.getParticleSystem().createParticle(ParticleType.POTION, hitBox.getCenterX(), hitBox.getCenterY(), 0, 0.05f);
+			potions++;
+		}
 	}
 
 	public boolean removeItem(String item) {
