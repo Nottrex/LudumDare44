@@ -1,5 +1,6 @@
 #version 130
 
+const float pixelWidth = 1/1024.0;
 uniform sampler2D tex;
 uniform int lightAmount;
 uniform vec3 lights[128];
@@ -22,7 +23,13 @@ void main() {
     }
     brightness = vec3(clamp(brightness.r, 0, 1),clamp(brightness.g, 0, 1),clamp(brightness.b, 0, 1));
 
+    vec4 up = texture2D(tex, vec2(fragTex.x, fragTex.y + pixelWidth));
+    vec4 down = texture2D(tex, vec2(fragTex.x, fragTex.y - pixelWidth));
+    vec4 right = texture2D(tex, vec2(fragTex.x - pixelWidth, fragTex.y));
+    vec4 left = texture2D(tex, vec2(fragTex.x + pixelWidth, fragTex.y));
+
     finalColor = texture2D(tex, fragTex);
     finalColor = mix(finalColor, finalColor.a*color, step(finalColor.r+finalColor.g+finalColor.b, 0.01));
+    finalColor = mix(finalColor, finalColor.a*color, step((up.a)*(down.a)*(right.a)*(left.a), 0.01));
     finalColor = vec4(finalColor.r * (brightness.r*(1-minBrightness) + minBrightness), finalColor.g * (brightness.g*(1-minBrightness) + minBrightness), finalColor.b * (brightness.b*(1-minBrightness) + minBrightness), finalColor.a);
 }
