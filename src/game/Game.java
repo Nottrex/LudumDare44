@@ -90,7 +90,7 @@ public class Game {
 		addGameObject(etageDisplay);
 
 		//Start the game in the "menu" map
-		setGameMap("map1", false);
+		setGameMap("boss_room", false);
 
 		this.audioPlayer = new AudioPlayer();
 		audioPlayer.getMusicSource().play("EP");

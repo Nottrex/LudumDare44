@@ -187,6 +187,8 @@ public class MapLoader {
 						map.setSpawnPoint(x, y, drawingPriority);
 						map.getCameraController().setSpawn(x, y);
 						break;
+					case "boss_attack_r_7":
+						map.addGameObject(new Boss(x, y, drawingPriority));
 					case "door_side":
 					case "wall_door_closed":
 						String target = Constants.SYS_PREFIX + "world";
@@ -265,7 +267,7 @@ public class MapLoader {
 						break;
 					default:
 						HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);
-						add(layers, hitBox, texture, drawingPriority);
+						add(layers, hitBox, texture, drawingPriority-0.1f);
 				}
 			}
 

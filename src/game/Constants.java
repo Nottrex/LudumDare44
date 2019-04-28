@@ -2,7 +2,6 @@ package game;
 
 import game.window.Keyboard;
 
-import java.io.File;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
