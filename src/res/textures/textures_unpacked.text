@@ -1,4 +1,4 @@
-187
+191
 explosion_0 0 160 16 16
 explosion_1 16 160 16 16
 explosion_2 32 160 16 16
@@ -176,13 +176,17 @@ boss_throw_player_r_2 224 432 32 32
 boss_throw_player_r_3 192 432 32 32
 boss_throw_barrel_r_0 288 464 32 32
 boss_throw_barrel_r_1 256 464 32 32
-boss_throw_barrel_r_2 244 464 32 32
+boss_throw_barrel_r_2 224 464 32 32
 boss_throw_barrel_r_3 192 464 32 32
 boss_throw_recover_r_0 160 432 32 32
 boss_throw_recover_r_1 128 432 32 32
 boss_throw_recover_r_2 96 432 32 32
 boss_throw_recover_r_3 64 432 32 32
+boss_walking_l_1 0 368 32 32
+boss_walking_l_2 32 368 32 32
+boss_walking_r_1 96 368 32 32
+boss_walking_r_2 64 368 32 32
 particle_0 134 209 1 1
-particle_1 135 512 1 1
+particle_1 135 125 1 1
 particle_2 135 214 1 1
 particle_3 130 215 1 1

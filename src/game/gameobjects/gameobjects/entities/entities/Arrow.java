@@ -15,7 +15,7 @@ public class Arrow extends BasicMovingEntity {
 	private GameObject owner;
 
 	public Arrow(float x, float y, float drawingPriority, Sprite sprite, float vx, float vy, GameObject owner) {
-		super(new HitBox(x-0.125f, y-0.125f, 0.25f, 0.25f), drawingPriority);
+		super(new HitBox(x-0.125f, y-0.125f, 0.25f, 0.25f), drawingPriority);	//TODO: barrel hitbox
 		this.setSprite(sprite);
 		this.owner = owner;
 		this.vx = vx;
