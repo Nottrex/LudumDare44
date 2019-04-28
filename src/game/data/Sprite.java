@@ -31,6 +31,22 @@ public class Sprite {
 		return textures.get((int) (((currentTime - startTime) / time) % textures.size()));
 	}
 
+	public Rectangle getTextureOnce(long startTime, long currentTime) {
+		return textures.get((int) Math.min((currentTime - startTime) / time, textures.size()-1));
+	}
+
+	public int getFrame(long startTime, long currentTime) {
+		return (int) (((currentTime - startTime) / time) % textures.size());
+	}
+
+	public int getFrameOnce(long startTime, long currentTime) {
+		return (int) Math.min((currentTime - startTime) / time, textures.size()-1);
+	}
+
+	public boolean finished(long startTime, long currentTime) {
+		return ((currentTime - startTime) / time) >= textures.size();
+	}
+
 	@Override
 	public boolean equals(Object b) {
 		if (b instanceof Sprite) {

@@ -12,6 +12,7 @@ import game.window.shader.shader.BasicShader;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.sql.Time;
 
 /**
  * An implementation of drawing, that draws a simple rectangle texture to the screen
@@ -24,6 +25,7 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 
 	private float drawingPriority;
 
+	private boolean playOnce = false;
 	private long startTime;
 
 	public BasicDrawingEntity(HitBox hitBox, float drawingPriority) {
@@ -43,7 +45,7 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 	public void draw(Window window, long time) {
 		if (sprite == null) return;
 
-		Rectangle bounds = sprite.getTexture(startTime, time);
+		Rectangle bounds = playOnce? sprite.getTextureOnce(startTime, time): sprite.getTexture(startTime, time);
 		BasicShader shader = (BasicShader) window.getShaderHandler().getShader(ShaderType.BASIC_SHADER);
 
 		shader.start();
@@ -74,8 +76,13 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 	}
 
 	protected void setSprite(Sprite sprite) {
+		setSprite(sprite, false);
+	}
+
+	protected void setSprite(Sprite sprite, boolean playOnce) {
 		this.sprite = sprite;
 		this.startTime = TimeUtil.getTime();
+		this.playOnce = playOnce;
 	}
 
 	public void setColor(Color color) {
@@ -84,5 +91,13 @@ public abstract class BasicDrawingEntity extends AbstractGameObject implements D
 
 	public void setUseCamera(boolean useCamera) {
 		this.useCamera = useCamera;
+	}
+
+	protected int getFrameOnce() {
+		return sprite.getFrameOnce(startTime, TimeUtil.getTime());
+	}
+
+	protected boolean animationFinished() {
+		return sprite.finished(startTime, TimeUtil.getTime());
 	}
 }

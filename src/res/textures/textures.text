@@ -1,4 +1,4 @@
-249
+253
 texture_error 294 414 13 13
 player_attack_dr_1 99 72 16 10
 player_attack_dr_2 305 373 24 16
@@ -248,3 +248,7 @@ boss_throw_barrel_l_1 454 112 32 32
 player_idle_l 79 140 8 8
 player_idle_r 399 425 8 8
 key 382 230 9 10
+particle_0 188 198 1 1
+particle_1 186 206 1 1
+particle_2 178 214 1 1
+particle_3 178 211 1 1

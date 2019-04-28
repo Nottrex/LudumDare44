@@ -138,7 +138,7 @@ public class Player extends BasicWalkingEntity implements Light {
 								game.getCamera().addScreenshake(0.003f);
 
 							if (collisionObject instanceof Wall) {
-								game.getParticleSystem().createParticle(ParticleType.GRAY, attackHitBox.getCenterX(), attackHitBox.getCenterY(), -0.025f + 0.05f * (float) Math.random(), -0.025f + 0.05f * (float) Math.random());
+								game.getParticleSystem().createParticle(ParticleType.WHITE, attackHitBox.getCenterX(), attackHitBox.getCenterY(), -0.025f + 0.05f * (float) Math.random(), -0.025f + 0.05f * (float) Math.random());
 							}
 
 							if (collisionObject instanceof Player || collisionObject instanceof Zombie) {

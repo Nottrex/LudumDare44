@@ -119,7 +119,7 @@ public class Game {
 				potionCounter.setText((pre ? players.get(0).getItem("potion") : 0) + " <potion>");
 			}
 
-			if(time > lastTimeDamage +500) {
+			if(time > lastTimeDamage +500 && (map.getName() == null || !map.getName().equalsIgnoreCase("boss_room"))) {
 				lastTimeDamage = time;
 				damagePlayer(1, true);
 			}
@@ -144,7 +144,7 @@ public class Game {
 					player.respawn(newGameMap.getSpawnX(), newGameMap.getSpawnY(), newGameMap.getPlayerDrawingPriority());
 				}
 
-				if(newGameMap.getName().equalsIgnoreCase("map1")) {
+				if(newGameMap.getName() != null && newGameMap.getName().equalsIgnoreCase("map1")) {
 					playerHealth = 200;
 					etage = 0;
 				} else etage++;
@@ -221,7 +221,7 @@ public class Game {
 
 		//spawn new players
 		for (int i = 0; i < 18; i++) {
-			if (keyboard.isPressed(Options.controls.get("UP" + i)) && !inputs.contains(i)) {
+			if (keyboard.isPressed(Options.controls.get("UP" + i)) && !inputs.contains(i) && players.size() == 0) {
 				Player newPlayer = new Player(map.getSpawnX(), map.getSpawnY(), map.getPlayerDrawingPriority());
 				this.addGameObject(newPlayer);
 				inputs.add(i);
@@ -253,8 +253,13 @@ public class Game {
 	 * loads the current map again
 	 **/
 	public void restartMap() {
-		if (map.getDirectory() != null && !map.getDirectory().equals("hidden"))
-			setGameMap(map.getDirectory() + "/" + map.getName(), true);
+		if(newMap == null) {
+			if (map.getName() != null && (map.getName().equalsIgnoreCase("map1")) || map.getName().equalsIgnoreCase("boss_room")) setGameMap(map.getName(), true);
+			else {
+				etage--;
+				setGameMap("dungeon", true);
+			}
+		}
 	}
 
 	/**
@@ -266,7 +271,8 @@ public class Game {
 	 **/
 	public boolean setGameMap(String name, boolean fade) {
 		if (newMap == null) {
-			newMap = name;
+			if((etage+1)%10 == 0 && name.equalsIgnoreCase("dungeon")) name = "boss_room";
+					newMap = name;
 
 			if (fade) {
 				this.addGameObject(new Fade());
@@ -438,11 +444,14 @@ public class Game {
 		return map;
 	}
 
-	public void damagePlayer(int dmg, boolean noCD) {
-		if(players.size() <= 0) return;
+	public boolean damagePlayer(int dmg, boolean noCD) {
+		if(players.size() <= 0) return false;
 		if(noCD || TimeUtil.getTime()-1000 > lastAttackFrame) {
 			if(!noCD) lastAttackFrame = TimeUtil.getTime();
 			playerHealth -= dmg;
+			return true;
 		}
+
+		return false;
 	}
 }

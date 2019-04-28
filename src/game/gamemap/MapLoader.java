@@ -189,6 +189,7 @@ public class MapLoader {
 						break;
 					case "boss_attack_r_7":
 						map.addGameObject(new Boss(x, y, drawingPriority));
+						break;
 					case "door_side":
 					case "wall_door_closed":
 						String target = Constants.SYS_PREFIX + "world";

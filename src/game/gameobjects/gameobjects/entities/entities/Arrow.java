@@ -8,6 +8,7 @@ import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
 import game.gameobjects.GameObject;
 import game.gameobjects.gameobjects.entities.BasicMovingEntity;
+import game.gameobjects.gameobjects.entities.BasicWalkingEntity;
 
 public class Arrow extends BasicMovingEntity {
 
@@ -45,7 +46,12 @@ public class Arrow extends BasicMovingEntity {
 			game.damagePlayer(Constants.PLAYER_MOB_DAMAGE, false);
 		}
 		if (gameObject instanceof Zombie || gameObject instanceof Skeleton) {
-			game.removeGameObject((GameObject) gameObject);
+			if(owner instanceof  Player) {
+				((BasicWalkingEntity) gameObject).addKnockBack(vx, vy);
+				((BasicWalkingEntity) gameObject).setMaxSpeed(0.07f);
+			} else {
+				game.removeGameObject((GameObject) gameObject);
+			}
 		}
 	}
 
