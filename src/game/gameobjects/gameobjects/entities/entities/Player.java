@@ -87,7 +87,7 @@ public class Player extends BasicWalkingEntity implements Light {
 	public void collide(CollisionObject gameObject, HitBoxDirection direction, float velocity, boolean source) {
 		super.collide(gameObject, direction, velocity, source);
 
-		if (gameObject instanceof Zombie || gameObject instanceof Skeleton) {
+		if (gameObject instanceof Zombie || gameObject instanceof Skeleton || gameObject instanceof Boss) {
 			BasicMovingEntity zom = (BasicMovingEntity) gameObject;
 			float dx = (this.hitBox.getCenterX() - zom.getHitBox().getCenterX());
 			float dy = (this.hitBox.getCenterY() - zom.getHitBox().getCenterY());
@@ -96,6 +96,15 @@ public class Player extends BasicWalkingEntity implements Light {
 			dy /= l;
 			addKnockBack(0.4f * dx, 0.4f * dy);
 
+			game.damagePlayer(Constants.PLAYER_MOB_DAMAGE, false);
+		}
+	}
+
+	@Override
+	public void interact(CollisionObject gameObject, HitBox hitBox, InteractionType interactionType) {
+		super.interact(gameObject, hitBox, interactionType);
+
+		if (gameObject instanceof Boss && interactionType == InteractionType.ATTACK) {
 			game.damagePlayer(Constants.PLAYER_MOB_DAMAGE, false);
 		}
 	}

@@ -1,6 +1,5 @@
 package game.gameobjects.gameobjects.entities.entities;
 
-import game.Constants;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -11,8 +10,10 @@ import game.gameobjects.gameobjects.particle.ParticleType;
 import game.util.TimeUtil;
 
 import java.awt.*;
+import java.util.Optional;
 
 public class Boss extends BasicWalkingEntity {
+	private static final float BARREL_SPEED = 0.15f;
 
 	private static Sprite 	idle_l = new Sprite(100, "boss_attack_l_0", "boss_attack_l_7", "boss_attack_l_8"),
 							attack_l = new Sprite(100, "boss_attack_l_0", "boss_attack_l_1", "boss_attack_l_2", "boss_attack_l_3", "boss_attack_l_4", "boss_attack_l_5", "boss_attack_l_6", "boss_attack_l_7", "boss_attack_l_8"),
@@ -31,13 +32,13 @@ public class Boss extends BasicWalkingEntity {
 	private long lastHitTaken = TimeUtil.getTime();
 	private int life = 10;
 	private Text text;
-	private float seismicX = -1, seismicY = -1;
+	private float seismicX, seismicY;
 
-	private int cooldown = 0;
+	private BossAction currentAction;
+	private int time = 0;
 	public Boss(float x, float y, float drawingPriority) {
 		super(new HitBox(x, y, 2f, 2f), drawingPriority);
 		setSprite(idle_l);
-		setMaxSpeed(0.1f);
 	}
 
 	@Override
@@ -46,6 +47,7 @@ public class Boss extends BasicWalkingEntity {
 		text = new Text(0, 0.98f, -100, life + "", 0.1f, false, 0f, 1f, Color.RED);
 
 		game.addGameObject(text);
+		currentAction = BossAction.IDLE;
 	}
 
 	@Override
@@ -59,51 +61,18 @@ public class Boss extends BasicWalkingEntity {
 		}
 		text.setText(life + "");
 
-		if(cooldown > 0) cooldown--;
-		if (cooldown <= 0 && Math.random() < 1 && (sprite == idle_l || sprite == idle_r)) {
-			setSprite(attack_l, true);
+		if (time > currentAction.getTime()) {
+
+			BossAction newAction;
+			do {
+				newAction = BossAction.values()[(int) (Math.random() * BossAction.values().length)];
+			} while(newAction == currentAction);
+			currentAction = newAction;
+			System.out.println("Current Action: " + currentAction.toString());
+			time = 0;
 		}
-
-		if(sprite == attack_l || sprite == attack_r) {
-			if(animationFinished()) setSprite(idle_l);
-			if(getFrameOnce() >= 3 && cooldown <= 0) {
-				cooldown = 200;
-				seismicX = hitBox.getCenterX();
-				seismicY = hitBox.getCenterY();
-			}
-		}
-
-		if (cooldown > 0) {
-			test: for (int i = 0; i < 100; i++) {
-				float x = seismicX + (float) Math.cos((cooldown/500f + i/100f )* 2 * Math.PI)*(200-cooldown)/20;
-				float y = seismicY + (float) Math.sin((cooldown / 500f + i/100f )* 2 * Math.PI)*(200-cooldown)/20;
-				HitBox hitBox2 = new HitBox(x, y, 0, 0);
-				while (hitBox2.x != seismicX || hitBox2.y != seismicY){
-					for (CollisionObject co: game.getCollisionObjects()) {
-						if (co == this) continue;
-						for (HitBox hitBox1: co.getCollisionBoxes()) {
-							if (hitBox1.collides(hitBox2)) continue test;
-							if (hitBox1.type == HitBox.HitBoxType.NOT_BLOCKING) continue;
-						}
-					}
-					float dx = seismicX - hitBox2.x;
-					float dy = seismicY - hitBox2.y;
-					double length = Math.sqrt(dx*dx+dy*dy);
-					if (length == 0) {
-
-					} else if (length > 0.5){
-						dx /= length*2 ;
-						dy /= length *2;
-						hitBox2.x = hitBox2.x + dx;
-						hitBox2.y = hitBox2.y + dy;
-					} else {
-						break;
-					}
-
-				}
-				game.getParticleSystem().createParticle(ParticleType.RED, x, y, 0, 0);
-			}
-		}
+		currentAction.doAction(time, this);
+		time++;
 	}
 
 	@Override
@@ -131,5 +100,119 @@ public class Boss extends BasicWalkingEntity {
 	@Override
 	public float getPriority() {
 		return 0;
+	}
+
+	private enum BossAction {
+		IDLE(180), STOMP(200), THROW_BARREL(96), FOLLOW_PLAYER(300), GRAB_PLAYER(240);
+
+		private int time;
+		BossAction(int time) {
+			this.time = time;
+		}
+
+		public int getTime() {
+			return time;
+		}
+
+		public void doAction(int currentTick, Boss b) {
+			if (this == STOMP) {
+				if (currentTick == 0) {
+					b.setSprite(attack_l);
+					b.setMx(0);
+					b.setMy(0);
+
+					b.seismicX = b.getHitBox().getCenterX();
+					b.seismicY = b.getHitBox().getCenterY();
+				}
+				if (currentTick == 54) {
+					b.setSprite(idle_l);
+				}
+				test:
+				for (int i = 0; i < 100; i++) {
+					float x = b.seismicX + (float) Math.cos((currentTick / 500f + i / 100f) * 2 * Math.PI) * (currentTick) / 20;
+					float y = b.seismicY  + (float) Math.sin((currentTick / 500f + i / 100f) * 2 * Math.PI) * (currentTick) / 20;
+
+					HitBox hitBox2 = new HitBox(x, y, 0, 0);
+
+					CollisionObject target = null;
+					t: for (CollisionObject co : b.game.getCollisionObjects()) {
+						if (co == b) continue;
+						for (HitBox hitBox1 : co.getCollisionBoxes()) {
+							if (hitBox1.type == HitBox.HitBoxType.NOT_BLOCKING || !hitBox1.collides(hitBox2)) continue;
+							target = co;
+							break t;
+						}
+					}
+
+					while (hitBox2.x != b.seismicX || hitBox2.y != b.seismicY ) {
+						for (CollisionObject co : b.game.getCollisionObjects()) {
+							if (co == b || co == target) continue;
+							for (HitBox hitBox1 : co.getCollisionBoxes()) {
+								if (hitBox1.type == HitBox.HitBoxType.NOT_BLOCKING) continue;
+								if (hitBox1.collides(hitBox2)) continue test;
+							}
+						}
+						float dx = b.seismicX - hitBox2.x;
+						float dy = b.seismicY - hitBox2.y;
+						double length = Math.sqrt(dx * dx + dy * dy);
+						if (length == 0) {
+
+						} else if (length > 0.5) {
+							dx /= length * 2;
+							dy /= length * 2;
+							hitBox2.x = hitBox2.x + dx;
+							hitBox2.y = hitBox2.y + dy;
+						} else {
+							break;
+						}
+					}
+
+					if (target != null) {
+						target.interact(b, new HitBox(0, 0, 0, 0), InteractionType.ATTACK);
+					} else {
+						b.game.getParticleSystem().createParticle(ParticleType.RED, x, y, 0, 0);
+					}
+				}
+			} else if (this == IDLE) {
+				if (currentTick == 0) {
+					b.setSprite(idle_l);
+					b.setMx(0);
+					b.setMy(0);
+				}
+			} else if (this == THROW_BARREL) {
+				if (currentTick == 0) {
+					b.setSprite(throw_barrel_l);
+				}
+
+				if (currentTick == 5 || currentTick == 29 || currentTick == 53) {
+					Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
+					float vx = 1;
+					float vy = 0;
+					if (nearestPlayer.isPresent()) {
+						vx = nearestPlayer.get().getHitBox().getCenterX() - b.hitBox.getCenterX();
+						vy = nearestPlayer.get().getHitBox().getCenterY() - b.hitBox.getCenterY();
+
+					}
+					double length = Math.sqrt(vx*vx+vy*vy);
+					vx /= length/BARREL_SPEED;
+					vy /= length/BARREL_SPEED;
+					b.game.addGameObject(new Arrow(b.hitBox.getCenterX(), b.hitBox.getCenterY(), 0.1f, new Sprite(50, "barrel_td"), vx, vy, b));
+				}
+				if (currentTick == 72) {
+					b.setSprite(recover_throw_l);
+				}
+			} else if (this == FOLLOW_PLAYER || this == GRAB_PLAYER) {
+				if (currentTick == 0) {
+					b.setSprite(idle_l);
+					b.setMaxSpeed(0.25f);
+				}
+				Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
+				if (nearestPlayer.isPresent()) {
+					b.setMx(nearestPlayer.get().getHitBox().x - b.getHitBox().x);
+					b.setMy(nearestPlayer.get().getHitBox().y - b.getHitBox().y);
+				}
+			}
+
+		}
 	}
 }
