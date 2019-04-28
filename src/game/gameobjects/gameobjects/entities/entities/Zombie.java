@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Constants;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -61,7 +62,7 @@ public class Zombie extends BasicWalkingEntity {
 		if (onDead != null) onDead.get(game);
 
 		if (!mapChange) {
-			game.damagePlayer(-5, true);
+			game.damagePlayer(-Constants.PLAYER_MOB_HEAL, true);
 			if (game.getDeadBodyHandler() != null)
 				game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, getDrawingPriority(),"zombie", Color.BLACK, lastMX > 0)));
 		}

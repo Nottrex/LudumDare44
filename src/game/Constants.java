@@ -17,6 +17,10 @@ public class Constants {
 	public static final float FAR = 1000f;					//maximum distance of objects to camera
 	public static final int TPS = 60;					//ticks per second
 
+	public static final int PLAYER_MOB_DAMAGE 	= 10;
+	public static final int PLAYER_MOB_HEAL 	= 10;
+	public static final int PLAYER_TRAP_DAMAGE 	= 20;
+
 	public static final float JUMP_ACCELERATION = 0.355f;
 	public static final float MAX_WALKING_SPEED = 0.175f;
 	public static final float DOWN_ACCELERATION = 0.04f;

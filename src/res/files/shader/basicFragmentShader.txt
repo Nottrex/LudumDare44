@@ -1,6 +1,6 @@
 #version 130
 
-const float pixelWidth = 1/1024.0;
+const float pixelWidth = 1/2048.0;
 uniform sampler2D tex;
 uniform int lightAmount;
 uniform vec3 lights[128];

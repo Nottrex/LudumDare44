@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Constants;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -11,10 +12,10 @@ import java.awt.*;
 import java.util.Optional;
 
 public class Skeleton extends BasicWalkingEntity {
-	private static Sprite walking_r = new Sprite(250, "skeleton");//new Sprite(250, "skeleton_walking_r_0", "skeleton_walking_r_1", "skeleton_walking_r_2");
-	private static Sprite idle_r = new Sprite(250, "skeleton");
-	private static Sprite walking_l = new Sprite(250, "skeleton");//new Sprite(250, "skeleton_walking_l_0", "skeleton_walking_l_1", "skeleton_walking_l_2", "skeleton_walking_l_3");
-	private static Sprite idle_l = new Sprite(250, "skeleton");
+	private static Sprite walking_r = new Sprite(250, "skeleton_walking_r_0", "skeleton_walking_r_1", "skeleton_walking_r_0", "skeleton_walking_r_2");
+	private static Sprite idle_r = new Sprite(250, "skeleton_walking_r_0", "skeleton_walking_r_1", "skeleton_walking_r_0", "skeleton_walking_r_2");
+	private static Sprite walking_l = new Sprite(250, "skeleton_walking_l_0", "skeleton_walking_l_1", "skeleton_walking_l_0", "skeleton_walking_l_2");
+	private static Sprite idle_l = new Sprite(250, "skeleton_walking_l_0", "skeleton_walking_l_1", "skeleton_walking_l_0", "skeleton_walking_l_2");
 	private int lastAttack;
 
 	private Tree onDead;
@@ -68,7 +69,7 @@ public class Skeleton extends BasicWalkingEntity {
 		if (onDead != null) onDead.get(game);
 
 		if (!mapChange) {
-			game.damagePlayer(-5, true);
+			game.damagePlayer(-Constants.PLAYER_MOB_HEAL, true);
 			if (game.getDeadBodyHandler() != null)
 				game.getDeadBodyHandler().addDeadBody((new DeadBody(getHitBox().x, getHitBox().y, getDrawingPriority(),"skeleton", Color.BLACK, lastMX > 0)));
 		}

@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Constants;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -92,7 +93,7 @@ public class Player extends BasicWalkingEntity implements Light {
 			dy /= l;
 			addKnockBack(0.4f * dx, 0.4f * dy);
 
-			game.damagePlayer(10, false);
+			game.damagePlayer(Constants.PLAYER_MOB_DAMAGE, false);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Constants;
 import game.Game;
 import game.data.Sprite;
 import game.data.hitbox.HitBox;
@@ -39,7 +40,7 @@ public class Arrow extends BasicMovingEntity {
 		game.removeGameObject(this);
 		if (gameObject instanceof Player) {
 			((Player) gameObject).addKnockBack(vx, vy);
-			game.damagePlayer(10, false);
+			game.damagePlayer(Constants.PLAYER_MOB_DAMAGE, false);
 		}
 		if (gameObject instanceof Zombie || gameObject instanceof Skeleton) {
 			game.removeGameObject((GameObject) gameObject);

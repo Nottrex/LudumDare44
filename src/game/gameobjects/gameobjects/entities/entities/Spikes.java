@@ -1,5 +1,6 @@
 package game.gameobjects.gameobjects.entities.entities;
 
+import game.Constants;
 import game.Game;
 import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
@@ -46,7 +47,7 @@ public class Spikes extends BasicStaticEntity {
 			if(gameObject instanceof Player) {
 				Player p = (Player) gameObject;
 				p.addKnockBack(0.2f*(p.getHitBox().x - this.hitBox.x), 0.2f*(p.getHitBox().y - this.hitBox.y));
-				game.damagePlayer(20, false);
+				game.damagePlayer(Constants.PLAYER_TRAP_DAMAGE, false);
 			}
 		}
 	}
