@@ -7,6 +7,7 @@ import game.gameobjects.CollisionObject;
 import game.gameobjects.gameobjects.Text;
 import game.gameobjects.gameobjects.entities.BasicWalkingEntity;
 import game.gameobjects.gameobjects.particle.ParticleType;
+import game.util.MathUtil;
 import game.util.TimeUtil;
 
 import java.awt.*;
@@ -110,7 +111,7 @@ public class Boss extends BasicWalkingEntity {
 	}
 
 	private enum BossAction {
-		IDLE(83), STOMP(200), THROW_BARREL(233), FOLLOW_PLAYER(240), GRAB_PLAYER(240);
+		IDLE(83), STOMP(200), THROW_BARREL(233), FOLLOW_PLAYER(240), GRAB_PLAYER(240), THROW_PLAYER(77);
 
 		private int time;
 		BossAction(int time) {
@@ -192,6 +193,7 @@ public class Boss extends BasicWalkingEntity {
 			} else if (this == THROW_BARREL) {
 				Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
 				boolean playerPresent = nearestPlayer.isPresent();
+
 				if(currentTick == 0) {
 					b.setMx(0);
 					b.setMy(0);
@@ -216,7 +218,7 @@ public class Boss extends BasicWalkingEntity {
 			} else if (this == FOLLOW_PLAYER || this == GRAB_PLAYER) {
 				if (currentTick == 0) {
 					b.setSprite(b.lastMX < 0? walking_l: walking_r);
-					b.setMaxSpeed(0.25f);
+					b.setMaxSpeed(this == FOLLOW_PLAYER? 0.25f: 0.35f);
 				}
 				Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
 				if (nearestPlayer.isPresent()) {
@@ -224,6 +226,40 @@ public class Boss extends BasicWalkingEntity {
 					if(Math.signum(b.lastMX) != Math.signum(b.mx)) b.setSprite(b.mx < 0? walking_l: walking_r);
 					b.setMy(nearestPlayer.get().getHitBox().y - b.getHitBox().y);
 				}
+			} else if (this == THROW_PLAYER) {
+				Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
+				boolean playerPresent = nearestPlayer.isPresent();
+
+				if(currentTick == 0) {
+					b.setMx(0);
+					b.setMy(0);
+				}
+				if(currentTick%78 == 0) b.setSprite(playerPresent? (nearestPlayer.get().getHitBox().getCenterX() < b.getHitBox().x? grab_l: grab_r): b.lastMX < 0? grab_l: grab_r);
+				if(currentTick%78 == 37) {
+					if(playerPresent && MathUtil.distance(nearestPlayer.get().getHitBox().getCenterX(), nearestPlayer.get().getHitBox().getCenterY(), b.hitBox.getCenterX(), b.hitBox.getCenterY()) <= 4.5){
+						b.setSprite(Math.random() < 0.5f? throw_player_l: throw_player_r);
+						nearestPlayer.get().throwPlayer(1);
+					} else b.setSprite(playerPresent? (nearestPlayer.get().getHitBox().getCenterX() < b.getHitBox().x? recover_throw_l: recover_throw_r): b.lastMX < 0? recover_throw_l: recover_throw_r);
+				}
+				if(currentTick%78 == 55) {
+					if(b.sprite == throw_player_l ||b.sprite == throw_player_r) {
+						b.setSprite(b.sprite == throw_player_l? recover_throw_l: recover_throw_r);
+					}else {
+						b.time = 80;
+					}
+				}
+
+				if ((currentTick)%78==61) {
+					nearestPlayer.get().throwPlayer(2);
+					if(b.sprite == recover_throw_l) {
+						nearestPlayer.get().addKnockBack(-0.5f, 0);
+					}
+					else {
+						nearestPlayer.get().addKnockBack(0.5f, 0);
+					}
+				}
+
+				if(currentTick == 76) nearestPlayer.get().throwPlayer(0);
 			}
 		}
 	}

@@ -6,7 +6,6 @@ import game.data.Sprite;
 import game.data.hitbox.HitBox;
 import game.data.hitbox.HitBoxDirection;
 import game.gameobjects.CollisionObject;
-import game.gameobjects.gameobjects.entities.BasicDrawingEntity;
 import game.gameobjects.gameobjects.entities.BasicMovingEntity;
 import game.gameobjects.gameobjects.entities.BasicWalkingEntity;
 import game.gameobjects.gameobjects.particle.ParticleType;
@@ -36,9 +35,11 @@ public class Player extends BasicWalkingEntity implements Light {
 	private static Sprite attack_ru = new Sprite(90, "player_attack_r_0", "player_attack_ur_1", "player_attack_ur_2", "player_attack_ur_3", "player_attack_ur_4", "player_attack_ur_5", "player_attack_r_6");
 	private static Sprite attack_rd = new Sprite(90, "player_attack_r_0", "player_attack_dr_1", "player_attack_dr_2", "player_attack_dr_3", "player_attack_dr_4", "player_attack_dr_5", "player_attack_dr_6", "player_attack_dr_7", "player_attack_r_6");
 
+	private static Sprite invisible = new Sprite(10, "particle_1");
+
 	private boolean attackingLastTick, interactingLastTick, throwingLastTick;
 	private boolean attacking, interacting, throwing;
-	private int attack, interact, throw_;
+	private int attack, interact, throw_, playerFlying;
 	private Direction attackDirection;
 	private Direction moveDirection;
 
@@ -60,6 +61,7 @@ public class Player extends BasicWalkingEntity implements Light {
 		attack = 0;
 		interact = 0;
 		throw_ = 0;
+		playerFlying = 0;
 
 		setSprite(idle_r);
 	}
@@ -114,7 +116,9 @@ public class Player extends BasicWalkingEntity implements Light {
 		super.update(game);
 		Sprite newSprite = null;
 		if (attack > 0) {
-			setMaxSpeed(0.15f);
+			if(playerFlying == 0) setMaxSpeed(0.15f);
+			else setMaxSpeed(0);
+
 			newSprite = (attackDirection.getSprite());
 		}
 		else {
@@ -127,12 +131,14 @@ public class Player extends BasicWalkingEntity implements Light {
 			if (mx != 0) {
 				newSprite = (mx < 0 ? walking_l : walking_r);
 			}
-			setMaxSpeed(1);
+
+			if(playerFlying == 0) setMaxSpeed(1f);
+			else setMaxSpeed(0);
 		}
 		Direction newDirection = Direction.getDirection(mx, my);
 		if (newDirection != Direction.VOID) moveDirection = newDirection;
 
-		if (!sprite.equals(newSprite)) setSprite(newSprite);
+		if (!sprite.equals(newSprite) && playerFlying != 1) setSprite(newSprite);
 
 		if (attack > 0) {
 			if (attack > 4) {
@@ -364,5 +370,12 @@ public class Player extends BasicWalkingEntity implements Light {
 			int angle = (int) Math.floor(((Math.toDegrees(Math.atan2(mx, my)) + 180) % 360) / 60);
 			return dir[angle];
 		}
+	}
+
+	public void throwPlayer(int pThrown) {
+		playerFlying = pThrown;
+		attack = 0;
+		if(pThrown == 1) setSprite(invisible);
+		else setSprite(idle_l);
 	}
 }

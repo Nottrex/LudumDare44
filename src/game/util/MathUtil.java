@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class MathUtil {
 
-	public static double distance(int x, int y, int x2, int y2) {
+	public static double distance(float x, float y, float x2, float y2) {
 		return Math.sqrt(Math.pow(x-x2, 2) + Math.pow(y-y2, 2));
 	}
 
