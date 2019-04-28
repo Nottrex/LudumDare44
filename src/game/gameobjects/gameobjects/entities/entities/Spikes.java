@@ -43,7 +43,11 @@ public class Spikes extends BasicStaticEntity {
 			if (gameObject instanceof Zombie) {
 				game.removeGameObject((GameObject) gameObject);
 			}
-			if(gameObject instanceof Player) game.damagePlayer(20, false);
+			if(gameObject instanceof Player) {
+				Player p = (Player) gameObject;
+				p.addKnockBack(0.2f*(p.getHitBox().x - this.hitBox.x), 0.2f*(p.getHitBox().y - this.hitBox.y));
+				game.damagePlayer(20, false);
+			}
 		}
 	}
 

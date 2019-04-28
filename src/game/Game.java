@@ -28,6 +28,7 @@ public class Game {
 
 	private long lastAttackFrame = TimeUtil.getTime(), lastTimeDamage = TimeUtil.getTime();
 	private int playerHealth = 200;
+	private int etage = 0;
 
 	private int gameTick;							//current tick of the game (starts at 0) -> 60 Ticks Per Second
 
@@ -54,6 +55,7 @@ public class Game {
 	private Text keyCounter;						//display key amount on the screen
 	private Text potionCounter;						//display key amount on the screen
 	private Text healthDisplay;
+	private Text etageDisplay;
 
 	public Game(Window window) {
 		this.window = window;
@@ -77,9 +79,11 @@ public class Game {
 		keyCounter = new Text(1, 0.98f, -1000, "<#keys>", 0.1f, false, 1f, 1f, null);
 		potionCounter = new Text(1, 0.80f, -1000, "<#potion>", 0.1f, false, 1f, 1f, null);
 		healthDisplay = new Text(-0.8f, 0.98f, -1000, playerHealth+"", 0.1f, false, 1f, 1f, null);
+		etageDisplay = new Text(-0.725f, -0.8f, -1000, "UG " + etage, 0.1f, false, 1f, 1f, null);
 		addGameObject(keyCounter);
 		addGameObject(potionCounter);
 		addGameObject(healthDisplay);
+		addGameObject(etageDisplay);
 
 		//Start the game in the "menu" map
 		setGameMap("map1", false);
@@ -117,7 +121,7 @@ public class Game {
 			}
 
 			healthDisplay.setText(Math.max(playerHealth, 0)+"");
-			if(playerHealth < 0) removeGameObject(players.get(0));
+			if(playerHealth < 0) for(int i = 0; i < players.size(); i++) removeGameObject(players.get(i));
 
 			//change map
 			if (newMap != null && gameTick - fadeStart >= Constants.FADE_TIME / 2) {
@@ -135,6 +139,12 @@ public class Game {
 				for (Player player : players) {
 					player.respawn(newGameMap.getSpawnX(), newGameMap.getSpawnY(), newGameMap.getPlayerDrawingPriority());
 				}
+
+				if(newGameMap.getName().equalsIgnoreCase("map1")) {
+					playerHealth = 200;
+					etage = 0;
+				} else etage++;
+				etageDisplay.setText("UG " + etage);
 
 				map = newGameMap;
 				map.load(this);
@@ -424,7 +434,8 @@ public class Game {
 	}
 
 	public void damagePlayer(int dmg, boolean noCD) {
-		if(noCD || TimeUtil.getTime()-250 > lastAttackFrame) {
+		if(players.size() <= 0) return;
+		if(noCD || TimeUtil.getTime()-1000 > lastAttackFrame) {
 			if(!noCD) lastAttackFrame = TimeUtil.getTime();
 			playerHealth -= dmg;
 		}

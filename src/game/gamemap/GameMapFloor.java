@@ -77,6 +77,7 @@ public class GameMapFloor {
 				chests++;
 			}
 		}
+		if(chests == 0) g.getPlayers().get(0).addItem("key");
 
 
 		for (float drawingPriority : layers.keySet()) {
@@ -88,8 +89,8 @@ public class GameMapFloor {
 
 		for(int[] i: m.turns) {
 			double f = Math.random();
-			if(f < 0.1 && MathUtil.distance(i[0]-minX, i[1]-minX, -minX, -minY+2) > 5) add(g, map, layers, tags, "skeleton", i[0]-minX, i[1]-minY+1, 0.5f, null);
-			else if(f < 0.3 && MathUtil.distance(i[0]-minX, i[1]-minX, -minX, -minY+2) > 5) add(g, map, layers, tags, "zombie_walking_r_0", i[0]-minX, i[1]-minY+1, 0.5f, null);
+			if(f < 0.25 && MathUtil.distance(i[0]-minX, i[1]-minX, -minX, -minY+2) > 5) add(g, map, layers, tags, "skeleton", i[0]-minX, i[1]-minY+1, 0.5f, null);
+			else if(f < 0.5 && MathUtil.distance(i[0]-minX, i[1]-minX, -minX, -minY+2) > 5) add(g, map, layers, tags, "zombie_walking_r_0", i[0]-minX, i[1]-minY+1, 0.5f, null);
 		}
 
 		map.getCameraController().addCameraArea(new Area(0, 0, maxX-minX+5, maxY-minY+5));	//TODO: this
