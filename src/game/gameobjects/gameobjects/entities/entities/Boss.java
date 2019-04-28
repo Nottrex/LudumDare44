@@ -102,8 +102,13 @@ public class Boss extends BasicWalkingEntity {
 		return 0;
 	}
 
+	@Override
+	public void addKnockBack(float kx, float ky) {
+		super.addKnockBack(kx/4, ky/4);
+	}
+
 	private enum BossAction {
-		IDLE(180), STOMP(200), THROW_BARREL(96), FOLLOW_PLAYER(300), GRAB_PLAYER(240);
+		IDLE(90), STOMP(200), THROW_BARREL(192), FOLLOW_PLAYER(240), GRAB_PLAYER(240);
 
 		private int time;
 		BossAction(int time) {
@@ -180,11 +185,14 @@ public class Boss extends BasicWalkingEntity {
 					b.setMy(0);
 				}
 			} else if (this == THROW_BARREL) {
-				if (currentTick == 0) {
+				if (currentTick %48 == 0) {
 					b.setSprite(throw_barrel_l);
 				}
+				if (currentTick %48 == 24) {
+					b.setSprite(recover_throw_l);
+				}
 
-				if (currentTick == 5 || currentTick == 29 || currentTick == 53) {
+				if (currentTick == 5 || currentTick == 53 || currentTick == 101) {
 					Optional<Player> nearestPlayer = b.game.getPlayers().stream().sorted((p1, p2) -> Float.compare(b.hitBox.distance(p1.getHitBox()), b.hitBox.distance(p2.getHitBox()))).findFirst();
 					float vx = 1;
 					float vy = 0;
@@ -197,9 +205,6 @@ public class Boss extends BasicWalkingEntity {
 					vx /= length/BARREL_SPEED;
 					vy /= length/BARREL_SPEED;
 					b.game.addGameObject(new Arrow(b.hitBox.getCenterX(), b.hitBox.getCenterY(), 0.1f, new Sprite(50, "barrel_td"), vx, vy, b));
-				}
-				if (currentTick == 72) {
-					b.setSprite(recover_throw_l);
 				}
 			} else if (this == FOLLOW_PLAYER || this == GRAB_PLAYER) {
 				if (currentTick == 0) {
