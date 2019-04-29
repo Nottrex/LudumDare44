@@ -43,6 +43,7 @@ public class Text extends AbstractGameObject implements Drawable {
 	private Sprite buttonY = new Sprite(100, "button_y");
 	private Sprite key = new Sprite(100, "key");
 	private Sprite potion = new Sprite(100, "potion");
+	private Sprite heart = new Sprite(100, "heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0","heart_0", "heart_0","heart_0","heart_0","heart_0","heart_1", "heart_2");
 
 	private float x, y, size, drawingPriority;
 	private boolean useCamera;
@@ -355,6 +356,8 @@ public class Text extends AbstractGameObject implements Drawable {
 				case "key_right":
 					animations.put(index, key);
 					replacement = "→";
+				case "heart":
+					animations.put(index, heart);
 					break;
 				default:
 					if (Character.isLetter(object.charAt(0)) && object.length() == 1) {

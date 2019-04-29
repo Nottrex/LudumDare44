@@ -49,6 +49,8 @@ public class Boss extends BasicWalkingEntity {
 		super.init(game);
 		text = new Text(0, 0.98f, -100, life + "", 0.1f, false, 0f, 1f, Color.RED);
 
+		life = 5 + (game.getEtage()) / 2;
+
 		game.addGameObject(text);
 		currentAction = BossAction.IDLE;
 	}
@@ -85,7 +87,7 @@ public class Boss extends BasicWalkingEntity {
 	public void interact(CollisionObject gameObject, HitBox hitBox, InteractionType interactionType) {
 		super.interact(gameObject, hitBox, interactionType);
 
-		if (TimeUtil.getTime()-1000 > lastHitTaken && gameObject instanceof Player && interactionType == InteractionType.ATTACK) {
+		if (TimeUtil.getTime()-3000 > lastHitTaken && gameObject instanceof Player && interactionType == InteractionType.ATTACK) {
 			lastHitTaken = TimeUtil.getTime();
 			life--;
 
@@ -265,7 +267,8 @@ public class Boss extends BasicWalkingEntity {
 						nearestPlayer.get().addKnockBack(-0.5f, 0);
 					}
 					else {
-						nearestPlayer.get().getHitBox().y = b.getHitBox().getCenterY();
+						nearestPlayer.get().getHitBox().y = b.getHitBox().getCenterY() - nearestPlayer.get().getHitBox().height/2;
+						nearestPlayer.get().getHitBox().x = b.getHitBox().getCenterX() - nearestPlayer.get().getHitBox().width/2;
 						nearestPlayer.get().addKnockBack(0.5f, 0);
 					}
 				}

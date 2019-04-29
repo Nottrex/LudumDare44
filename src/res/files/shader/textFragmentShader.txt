@@ -1,5 +1,8 @@
 #version 130
 
+const float pixelWidth = 1/2048.0;
+const vec4 color2 = vec4(46.0/255.0,20.0/255.0,31.0/255.0, 1);
+
 uniform sampler2D tex;
 uniform int lightAmount;
 uniform vec3 lights[128];
@@ -25,5 +28,11 @@ void main() {
     float rep = step(1, (finalColor.r+finalColor.g+finalColor.b+finalColor.a)/4);
     finalColor = (1-rep) * finalColor + rep*color;
 
+    vec4 up = texture2D(tex, vec2(fragTex.x, fragTex.y + pixelWidth));
+    vec4 down = texture2D(tex, vec2(fragTex.x, fragTex.y - pixelWidth));
+    vec4 right = texture2D(tex, vec2(fragTex.x - pixelWidth, fragTex.y));
+    vec4 left = texture2D(tex, vec2(fragTex.x + pixelWidth, fragTex.y));
+
     finalColor = vec4(finalColor.r * (brightness.r*(1-minBrightness) + minBrightness), finalColor.g * (brightness.g*(1-minBrightness) + minBrightness), finalColor.b * (brightness.b*(1-minBrightness) + minBrightness), finalColor.a);
+    finalColor = mix(finalColor, finalColor.a*color2, step((up.a)*(down.a)*(right.a)*(left.a), 0.01));
 }

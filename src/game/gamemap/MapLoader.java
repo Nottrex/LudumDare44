@@ -264,7 +264,9 @@ public class MapLoader {
 					case "x":
 					case "y":
 					case "z":
-						map.addGameObject(new Text(x, y, drawingPriority, tags.getOrDefault("text", ""), Float.valueOf(tags.getOrDefault("size", "0.5")), true, Float.valueOf(tags.getOrDefault("anchorX", "0")), Float.valueOf(tags.getOrDefault("anchorY", "0")), null));
+					case "?":
+						String text = tags.getOrDefault("text", "");
+						map.addGameObject(new Text(x, y, drawingPriority, text, Float.valueOf(tags.getOrDefault("size", "0.5")), true, Float.valueOf(tags.getOrDefault("anchorX", "0.5")), Float.valueOf(tags.getOrDefault("anchorY", "0")), null));
 						break;
 					default:
 						HitBox hitBox = new HitBox(x, y, textureBounds.width / tileSize, textureBounds.height / tileSize);

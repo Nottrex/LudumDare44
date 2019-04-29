@@ -33,6 +33,9 @@ public class Game {
 	private int playerHealth = 200;
 	private int etage = 0;
 
+	private int damageReduction = 0;
+	private int damageReductionTime = 1;
+	private int healthBonus = 1;
 	private int gameTick;							//current tick of the game (starts at 0) -> 60 Ticks Per Second
 
 	private List<GameObject> gameObjects;			//list of gameObjects, that are updated every tick
@@ -90,7 +93,7 @@ public class Game {
 		addGameObject(etageDisplay);
 
 		//Start the game in the "menu" map
-		setGameMap("boss_room", false);
+		setGameMap("map1", false);
 
 		this.audioPlayer = new AudioPlayer();
 		audioPlayer.getMusicSource().play("EP");
@@ -119,9 +122,9 @@ public class Game {
 				potionCounter.setText((pre ? players.get(0).getItem("potion") : 0) + " <potion>");
 			}
 
-			if(time > lastTimeDamage +500 && (map.getName() == null || !map.getName().equalsIgnoreCase("boss_room"))) {
+			if(time > lastTimeDamage + (500*damageReductionTime) && (map.getName() == null || !map.getName().equalsIgnoreCase("boss_room") && !map.getName().equalsIgnoreCase("shop"))) {
 				lastTimeDamage = time;
-				damagePlayer(1, true);
+				damagePlayer(1, true, true);
 			}
 
 			healthDisplay.setText(Math.max(playerHealth, 0)+"");
@@ -147,6 +150,8 @@ public class Game {
 				if(newGameMap.getName() != null && newGameMap.getName().equalsIgnoreCase("map1")) {
 					playerHealth = 200;
 					etage = 0;
+				} else if(newGameMap.getName() != null && newGameMap.getName().equalsIgnoreCase("shop")) {
+					players.get(0).addItem("key");
 				} else etage++;
 				etageDisplay.setText("UG " + etage);
 
@@ -273,6 +278,7 @@ public class Game {
 	 * @return true, if the map can be changed | false, if the map is changing currently
 	 **/
 	public boolean setGameMap(String name, boolean fade) {
+		if(name.contains("/")) name = name.split("/")[1];
 		if (newMap == null) {
 			if((etage+1)%10 == 0 && name.equalsIgnoreCase("dungeon")) name = "boss_room";
 					newMap = name;
@@ -451,10 +457,36 @@ public class Game {
 		if(players.size() <= 0) return false;
 		if(noCD || TimeUtil.getTime()-1000 > lastAttackFrame) {
 			if(!noCD) lastAttackFrame = TimeUtil.getTime();
-			playerHealth -= dmg;
+			playerHealth -= dmg > 0? Math.max(2, dmg-damageReduction): dmg-healthBonus;
 			return true;
 		}
 
 		return false;
+	}
+
+	public boolean damagePlayer(int dmg, boolean noCD, boolean noRed) {
+		if(players.size() <= 0) return false;
+		if(noCD || TimeUtil.getTime()-1000 > lastAttackFrame) {
+			if(!noCD) lastAttackFrame = TimeUtil.getTime();
+			playerHealth -= !noRed? Math.max(2, dmg-damageReduction): dmg;
+			return true;
+		}
+
+		return false;
+	}
+
+	public int getEtage() {
+		return etage;
+	}
+
+	public void addLessDamage() {
+		damageReduction++;
+	}
+
+	public void addLessDamageTime() {
+		damageReductionTime++;
+	}
+	public void addHealthBonus() {
+		healthBonus++;
 	}
 }

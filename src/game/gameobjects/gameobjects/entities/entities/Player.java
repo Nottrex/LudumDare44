@@ -21,6 +21,8 @@ public class Player extends BasicWalkingEntity implements Light {
 	private static final int ATTACK_TICKS = 40;
 	private static final int INTERACT_TICKS = 5;
 
+	private float knockbackReduction = 1;
+
 	private static Sprite attack_r = new Sprite(90, "player_attack_r_0", "player_attack_r_1", "player_attack_r_2", "player_attack_r_3", "player_attack_r_4", "player_attack_r_5", "player_attack_r_6");
 	private static Sprite walking_r = new Sprite(100, "player_idle_r", "player_walking_r_1", "player_idle_r", "player_walking_r_2");
 	private static Sprite idle_r = new Sprite(250, "player_idle_r");
@@ -287,7 +289,18 @@ public class Player extends BasicWalkingEntity implements Light {
 		else if(item.equalsIgnoreCase("potion")) {
 			game.getParticleSystem().createParticle(ParticleType.POTION, hitBox.getCenterX(), hitBox.getCenterY(), 0, 0.05f);
 			potions++;
+		} else if(item.equalsIgnoreCase("less_knockback")) {
+			game.damagePlayer(20, true, true);
+			knockbackReduction *= 0.9;
+		}else if(item.equalsIgnoreCase("less_damage")) {
+			game.damagePlayer(20, true, true);
+			game.addLessDamage();
+			game.addLessDamageTime();
+		}else if(item.equalsIgnoreCase("less_damage_time")) {
+			game.damagePlayer(20, true, true);
+
 		}
+
 	}
 
 	public boolean removeItem(String item) {
@@ -375,7 +388,17 @@ public class Player extends BasicWalkingEntity implements Light {
 	public void throwPlayer(int pThrown) {
 		playerFlying = pThrown;
 		attack = 0;
-		if(pThrown == 1) setSprite(invisible);
+		if(pThrown == 1) {
+			setMx(0);
+			setMy(0);
+			setSprite(invisible);
+		}
 		else setSprite(idle_l);
+		if(pThrown == 0) game.damagePlayer(Constants.PLAYER_MOB_DAMAGE, false);
+	}
+
+	@Override
+	public void addKnockBack(float kx, float ky) {
+		super.addKnockBack(kx*knockbackReduction, ky*knockbackReduction);
 	}
 }

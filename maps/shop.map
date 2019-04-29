@@ -1,0 +1,48 @@
+8
+#1 - textures_block_border_5
+#2 - textures_block_border_6
+#3 - textures_block_border_7
+#4 - textures_block_border_9
+#5 - textures_block_border_10
+#6 - textures_block_border_14
+#7 - textures_block_border_11
+#8 - textures_wall
+#9 - textures_block_border_13
+#10 - textures_block_border_15
+#11 - textures_border_5_2
+#12 - textures_border_13_2
+#13 - textures_border_7_2
+#14 - textures_border_15_2
+#15 - textures_player_idle_l
+#16 - textures_floor_door_closed_t
+#17 - textures_wall_door_closed
+#18 - textures_?
+#19 - textures_chest_closed
+#20 - textures_floor_1
+#21 - textures_floor_5
+#22 - textures_floor_6
+#23 - textures_floor_4
+#24 - textures_floor_2
+[layer; 0.5; 14; 13; 0, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, ; 0, 2, 5, 7, 7, 7, 7, 7, 7, 5, 5, 5, 6, ; 0, 2, 6, 8, 0, 0, 0, 0, 0, 2, 5, 5, 6, ; 0, 2, 6, 8, 0, 0, 0, 0, 0, 3, 5, 5, 6, ; 0, 2, 6, 8, 0, 0, 0, 0, 0, 0, 2, 5, 6, ; 0, 2, 6, 8, 0, 0, 0, 0, 0, 0, 3, 5, 6, ; 0, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 0, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, ; 0, 2, 6, 8, 0, 0, 0, 0, 0, 0, 1, 5, 6, ; 0, 2, 6, 8, 0, 0, 0, 0, 0, 0, 2, 5, 6, ; 0, 2, 6, 8, 0, 0, 0, 0, 0, 1, 5, 5, 6, ; 0, 2, 6, 8, 0, 0, 0, 0, 0, 2, 5, 5, 6, ; 0, 2, 5, 4, 4, 4, 4, 4, 4, 5, 5, 5, 6, ; 0, 3, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, ; ]
+[layer; 0.7; 14; 13; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 20, 20, 20, 20, 20, 0, 0, 0, 0, ; 0, 0, 0, 0, 20, 21, 23, 20, 20, 0, 0, 0, 0, ; 0, 0, 0, 0, 20, 22, 24, 20, 20, 20, 0, 0, 0, ; 0, 0, 0, 0, 20, 20, 20, 20, 20, 20, 0, 0, 0, ; 0, 0, 0, 8, 20, 21, 23, 20, 20, 20, 20, 0, 0, ; 0, 0, 0, 8, 20, 22, 24, 20, 20, 20, 20, 0, 0, ; 0, 0, 0, 0, 20, 20, 20, 20, 20, 20, 0, 0, 0, ; 0, 0, 0, 0, 20, 21, 23, 20, 20, 20, 0, 0, 0, ; 0, 0, 0, 0, 20, 22, 24, 20, 20, 0, 0, 0, 0, ; 0, 0, 0, 0, 20, 20, 20, 20, 20, 0, 0, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ; ]
+[put; 0.0; 11; 1.0; 2.0]
+[put; 0.0; 12; 1.0; 9.0]
+[put; 0.0; 12; 3.0; 10.0]
+[put; 0.0; 12; 5.0; 11.0]
+[put; 0.0; 13; 12.0; 2.0]
+[put; 0.0; 14; 12.0; 9.0]
+[put; 0.0; 14; 10.0; 10.0]
+[put; 0.0; 14; 8.0; 11.0]
+[put; 0.0; 15; 6.5; 9.625]
+[put; 0.0; 16; 6.5; 4.0; [tag; condition; #door1]]
+[put; 0.0; 17; 6.5; 3.0; [tag; tag; door1]; [tag; target; dungeon]]
+[put; 0.0; 18; 6.75; 4.625; [tag; text; 20<heart>]]
+[put; 0.0; 18; 9.75; 4.625; [tag; text; 20<heart>]]
+[put; 0.0; 18; 3.625; 4.625; [tag; text; 20<heart>]]
+[put; 0.0; 18; 3.625; 3.5; [tag; text; Less_Knockback]]
+[put; 0.0; 18; 9.75; 3.5; [tag; text; Less_Damage]]
+[put; 0.0; 19; 3.5; 5.5; [tag; content; less_knockback]]
+[put; 0.0; 19; 6.625; 5.5; [tag; content; less_damage_time]]
+[put; 0.0; 18; 6.75; 7.125; [tag; text; More_Health_Per_Kill]]
+[put; 0.0; 19; 9.625; 5.5; [tag; content; less_damage]]
+[area; 2.0; 3.0; 12.0; 11.0]
